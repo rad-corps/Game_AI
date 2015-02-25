@@ -78,6 +78,37 @@ void DirectedGraph::RemoveNode(Node* node_)
 	}
 }
 
+void DirectedGraph::RemoveNodeIf(Vector2 pos_, int tollerance_)
+{
+	Node* node = FindNode(pos_, tollerance_);
+	if (node != nullptr)
+	{
+		RemoveNode(node);
+	}
+}
+
+Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
+{
+	for (auto &node : graphData)
+	{
+		float distance = (node->GetData().pos - pos_).GetMagnitude();
+
+		if (distance < tollerance_)
+		{			
+			return node;
+		}
+	}
+}
+
+void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_)
+{
+	Node* nodeB = FindNode(nodeA_->GetData().pos, distance_);
+	if (nodeB != nullptr)
+	{
+		ConnectNodes(nodeA_, nodeB, 1);
+	}
+}
+
 Node* DirectedGraph::operator[](int index_)
 {
 	return graphData[index_];
