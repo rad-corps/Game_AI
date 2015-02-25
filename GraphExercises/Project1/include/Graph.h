@@ -17,6 +17,7 @@ public:
 	Node* AddNode(NodeData data_);
 	Node* AddNode(Vector2 data_);
 	Node* FindNode(Vector2 pos_, int tollerance_);
+	std::vector<Node*> FindNodes(Vector2 pos_, int tollerance_);
 	
 	void RemoveNode(Node* node_);
 	void RemoveNodeIf(Vector2 pos_, int tollerance_);

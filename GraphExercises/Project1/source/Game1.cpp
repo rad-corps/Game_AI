@@ -48,6 +48,8 @@ Game1::~Game1()
 }
 
 
+
+
 void Game1::Update(float deltaTime)
 {
 	//add a node where the mouse was clicked

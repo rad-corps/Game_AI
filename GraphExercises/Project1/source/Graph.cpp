@@ -2,6 +2,7 @@
 #include <sstream>
 #include <algorithm>
 
+using namespace std;
 
 int DirectedGraph::nodeID = 0;
 
@@ -80,8 +81,8 @@ void DirectedGraph::RemoveNode(Node* node_)
 
 void DirectedGraph::RemoveNodeIf(Vector2 pos_, int tollerance_)
 {
-	Node* node = FindNode(pos_, tollerance_);
-	if (node != nullptr)
+	vector<Node*> nodeVec = FindNodes(pos_, tollerance_);
+	for (auto& node : nodeVec )
 	{
 		RemoveNode(node);
 	}
@@ -100,12 +101,30 @@ Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
 	}
 }
 
+std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
+{
+	vector<Node*> ret;
+	
+	for (auto &node : graphData)
+	{
+		float distance = (node->GetData().pos - pos_).GetMagnitude();
+
+		if (distance < tollerance_)
+		{
+			ret.push_back(node);
+		}
+	}
+
+	return ret;
+}
+
+
 void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_)
 {
-	Node* nodeB = FindNode(nodeA_->GetData().pos, distance_);
-	if (nodeB != nullptr)
-	{
-		ConnectNodes(nodeA_, nodeB, 1);
+	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
+	for ( auto& node : nodeVec )
+	{		
+		ConnectNodes(nodeA_, node, 1);
 	}
 }
 
