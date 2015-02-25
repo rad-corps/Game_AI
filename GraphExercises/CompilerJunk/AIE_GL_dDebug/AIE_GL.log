@@ -1,5 +1,60 @@
-﻿Build started 25/02/2015 4:52:07 PM.
+﻿Build started 25/02/2015 7:02:34 PM.
+     1>Project "G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\AIE_GL\AIE_GL.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IG:\aie_adv_dip_2014V2\Game_AI\GraphExercises\AIE_GL\include\ /IG:\aie_adv_dip_2014V2\Game_AI\GraphExercises\libraries\glew\include\ /IG:\aie_adv_dip_2014V2\Game_AI\GraphExercises\libraries\glfw3\include\GLFW\ /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\\" /Fd"G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Application.cpp source\Font.cpp source\Input.cpp source\lodepng.cpp source\RenderTexture.cpp source\SpriteBatch.cpp source\SpriteBatch_GL3.cpp source\Texture.cpp
+         Texture.cpp
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\texture.cpp(67): warning C4018: '<' : signed/unsigned mismatch
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\texture.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+         SpriteBatch_GL3.cpp
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(144): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(150): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(156): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(139): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(189): warning C4018: '<' : signed/unsigned mismatch
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(218): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(247): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(258): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(259): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(286): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(297): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(308): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(319): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(350): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(351): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(416): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(427): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(438): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(449): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(565): warning C4018: '<=' : signed/unsigned mismatch
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\spritebatch_gl3.cpp(583): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
+         SpriteBatch.cpp
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(144): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(150): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\include\spritebatch_gl3.h(156): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         RenderTexture.cpp
+         lodepng.cpp
+         Input.cpp
+     1>g:\aie_adv_dip_2014v2\game_ai\graphexercises\aie_gl\source\input.cpp(34): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+         Font.cpp
+         Application.cpp
+     1>c:\program files (x86)\windows kits\8.1\include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition
+                 g:\aie_adv_dip_2014v2\game_ai\graphexercises\libraries\glfw3\include\glfw\glfw3.h(95) : see previous definition of 'APIENTRY'
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\AIE_GL\bin\AIE_GL_d.lib" OpenGL32.lib glew32.lib glfw3.lib /LIBPATH:G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\libraries\glew\lib\Release\Win32\ /LIBPATH:"G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\libraries\glfw3\lib-vc2013\\" /NOLOGO G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\Application.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\Font.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\Input.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\lodepng.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\RenderTexture.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\SpriteBatch.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\SpriteBatch_GL3.obj
+         G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\CompilerJunk\AIE_GL_dDebug\Texture.obj
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in OpenGL32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         AIE_GL.vcxproj -> G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\AIE_GL\bin\AIE_GL_d.lib
+     1>Done Building Project "G:\aie_adv_dip_2014V2\Game_AI\GraphExercises\AIE_GL\AIE_GL.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.01
+Time Elapsed 00:00:04.55

@@ -2,14 +2,43 @@
 #include <sstream>
 #include <algorithm>
 
+
 int DirectedGraph::nodeID = 0;
 
 DirectedGraph::DirectedGraph(void)
 {
+	nodeSprite = new Texture("./Images/nodeTexture.png");
 }
 
 DirectedGraph::~DirectedGraph(void)
 {
+	delete nodeSprite;
+}
+
+void
+DirectedGraph::Draw(SpriteBatch* spriteBatch_)
+{
+	//get the nodes
+	for (int i = 0; i < size(); ++i)
+	{
+		Node* node = graphData[i];
+		//get the edge
+		for (Edge edge : node->GetEdges())
+		{
+			//draw line from this node to edge
+			Node* startNode = node;
+			Node* endNode = edge.End();
+
+			spriteBatch_->DrawLine(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
+		}
+	}
+
+	for (int i = 0; i < size(); ++i)
+	{
+		Node* node = graphData[i];
+		NodeData data = node->GetData();
+		spriteBatch_->DrawSprite(nodeSprite, data.pos.x, data.pos.y);
+	}
 }
 
 Node*

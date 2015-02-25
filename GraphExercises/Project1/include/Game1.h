@@ -8,6 +8,7 @@ Description:
 
 #include "Application.h"
 #include "Graph.h"
+#include "Input.h"
 class SpriteBatch;
 
 class Game1 : public Application
@@ -26,10 +27,9 @@ public:
 
 protected:
 
-	SpriteBatch *m_spritebatch;
-
-	Texture* box;
-	DirectedGraph *pGraph;
+	SpriteBatch *spritebatch;
+	DirectedGraph *graph;
+	Input* input;
 
 private:
 };
