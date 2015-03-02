@@ -76,6 +76,7 @@ public:
 
 	// draws a white line from x1,y1 to x2,y2 with the specified thickness.
 	virtual void DrawLine( float x1, float y1, float x2, float y2, float thickness = 1.0f ) = 0;
+	virtual void DrawArrow(float x1, float y1, float x2, float y2, float thickness = 1.0f) = 0;
 
 	// change the tint color for rendering
 	void SetRenderColor(unsigned int col);

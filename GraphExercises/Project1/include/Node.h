@@ -10,6 +10,7 @@ struct NodeData
 	int nodeID;
 	//x/y coords go here
 	Vector2 pos;
+	bool traversed;
 };
 
 class Node
@@ -21,8 +22,8 @@ public:
 	void RemoveEdgeIf(Node* edge_);
 	NodeData GetData();
 	std::vector<Edge> GetEdges();
-
 	std::string ToString();
+
 private:
 	NodeData data;
 	std::vector<Edge> edges;

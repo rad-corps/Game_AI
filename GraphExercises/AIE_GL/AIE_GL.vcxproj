@@ -101,6 +101,7 @@
     <ClInclude Include="include\SpriteBatch.h" />
     <ClInclude Include="include\SpriteBatch_GL3.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="source\SpriteBatch.cpp" />
     <ClCompile Include="source\SpriteBatch_GL3.cpp" />
     <ClCompile Include="source\Texture.cpp" />
+    <ClCompile Include="source\Vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

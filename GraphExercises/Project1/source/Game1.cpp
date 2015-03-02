@@ -52,22 +52,30 @@ Game1::~Game1()
 
 void Game1::Update(float deltaTime)
 {
+	//get the mouse position
+	int x, y;
+	input->GetMouseXY(&x, &y);
+	Vector2 mousePos(x,y);
+
 	//add a node where the mouse was clicked
 	if (input->WasMouseButtonPressed(0))
 	{
-		int x, y;		
-		input->GetMouseXY(&x, &y);
-		Node* node = graph->AddNode(Vector2(x, y));
-		graph->ConnectCloseNodes(node, 50);
+		Node* node = graph->AddNode(mousePos);
+		graph->ConnectCloseNodes(node, 100);
 	}
 
 	if (input->WasMouseButtonPressed(1))
 	{
-		int x, y;
-		input->GetMouseXY(&x, &y);
-		Vector2 rmbPos(x, y);		
-		graph->RemoveNodeIf(rmbPos, 8); //8 is the radius of the node image		
-		cout << "RMB pressed at: " << x << " " << y << endl;
+		graph->RemoveNodeIf(mousePos, 8); //8 is the radius of the node image		
+	}
+
+	if (input->WasKeyPressed(GLFW_KEY_S))
+	{
+		graph->SetStartNode(mousePos, 8);
+	}
+	if (input->WasKeyPressed(GLFW_KEY_E))
+	{
+		graph->SetEndNode(mousePos, 8);
 	}
 }
 

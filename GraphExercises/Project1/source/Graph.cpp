@@ -9,6 +9,8 @@ int DirectedGraph::nodeID = 0;
 DirectedGraph::DirectedGraph(void)
 {
 	nodeSprite = new Texture("./Images/nodeTexture.png");
+	startNode = nullptr;
+	endNode = nullptr;
 }
 
 DirectedGraph::~DirectedGraph(void)
@@ -19,7 +21,7 @@ DirectedGraph::~DirectedGraph(void)
 void
 DirectedGraph::Draw(SpriteBatch* spriteBatch_)
 {
-	//get the nodes
+	//draw the links first
 	for (int i = 0; i < size(); ++i)
 	{
 		Node* node = graphData[i];
@@ -30,14 +32,25 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_)
 			Node* startNode = node;
 			Node* endNode = edge.End();
 
-			spriteBatch_->DrawLine(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
+			if ( startNode != endNode )
+				spriteBatch_->DrawArrow(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
 		}
 	}
 
+	//then draw the nodes
 	for (int i = 0; i < size(); ++i)
 	{
 		Node* node = graphData[i];
 		NodeData data = node->GetData();
+		if (data.traversed)
+			spriteBatch_->SetRenderColor(255, 0, 255, 255);
+		else if (!data.traversed)
+			spriteBatch_->SetRenderColor(50, 100, 255, 255);
+		if (node == startNode)
+			spriteBatch_->SetRenderColor(0, 255, 0, 255);
+		if (node == endNode)
+			spriteBatch_->SetRenderColor(255, 0, 0, 255);
+		
 		spriteBatch_->DrawSprite(nodeSprite, data.pos.x, data.pos.y);
 	}
 }
@@ -56,6 +69,9 @@ DirectedGraph::AddNode(Vector2 pos_)
 	NodeData nd;
 	nd.pos = pos_;
 	nd.nodeID = nodeID++;
+	nd.traversed = false;
+	//nd.start = false;
+	//nd.end = false;
 
 	Node *nodePtr = new Node(nd);
 	graphData.push_back(nodePtr);
@@ -86,6 +102,16 @@ void DirectedGraph::RemoveNodeIf(Vector2 pos_, int tollerance_)
 	{
 		RemoveNode(node);
 	}
+}
+
+void DirectedGraph::SetStartNode(Vector2 pos_, int tollerance_)
+{
+	startNode = FindNode(pos_, tollerance_);
+}
+
+void DirectedGraph::SetEndNode(Vector2 pos_, int tollerance_)
+{
+	endNode = FindNode(pos_, tollerance_);
 }
 
 Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
@@ -124,7 +150,7 @@ void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_)
 	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
 	for ( auto& node : nodeVec )
 	{		
-		ConnectNodes(nodeA_, node, 1);
+		ConnectNodes(node, nodeA_, 1);
 	}
 }
 

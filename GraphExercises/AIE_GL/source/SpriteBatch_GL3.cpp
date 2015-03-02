@@ -4,9 +4,12 @@
 #include "Texture.h"
 #include "RenderTexture.h"
 #include "Font.h"
-
+#include "Vector.h"
+#include <iostream>
 #include <string>
 
+
+using namespace std;
 
 static char gs_vertexShader[] =
 "	#version 330																				\r\n"
@@ -470,6 +473,29 @@ void SpriteBatch_GL3::DrawSpriteTransformed4x4(Texture *texture, float *transfor
 
 }
 
+void SpriteBatch_GL3::DrawArrow(float x1, float y1, float x2, float y2, float thickness)
+{
+	DrawLine(x1, y1, x2, y2, thickness);
+
+	//direction of line
+	Vector2 start(x1, y1);
+	Vector2 end(x2, y2);
+	Vector2 direction = end - start;
+
+	float arrowHeadDir = direction.GetAngle();
+	
+	Vector2 arrowHeadVec1; 
+	arrowHeadVec1.SetMagnitude(16);
+	arrowHeadVec1.SetAngle(arrowHeadDir - 3.14 - 0.2);
+	arrowHeadVec1 += end;
+	DrawLine(x2, y2, arrowHeadVec1.x, arrowHeadVec1.y);
+
+	Vector2 arrowHeadVec2;
+	arrowHeadVec2.SetMagnitude(16);
+	arrowHeadVec2.SetAngle(arrowHeadDir - 3.14 + 0.2);
+	arrowHeadVec2 += end;
+	DrawLine(x2, y2, arrowHeadVec2.x, arrowHeadVec2.y);
+}
 
 void SpriteBatch_GL3::DrawLine(float x1, float y1, float x2, float y2, float thickness)
 {

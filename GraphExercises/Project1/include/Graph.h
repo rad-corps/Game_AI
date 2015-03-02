@@ -21,6 +21,8 @@ public:
 	
 	void RemoveNode(Node* node_);
 	void RemoveNodeIf(Vector2 pos_, int tollerance_);
+	void SetStartNode(Vector2 pos_, int tollerance_);
+	void SetEndNode(Vector2 pos_, int tollerance_);
 	
 	Node* operator[](int index_);
 	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_);
@@ -32,6 +34,9 @@ public:
 	std::string ToString();
 
 private:
+	Node* startNode;
+	Node* endNode;
+
 	std::vector<Node*> graphData;
 	static int nodeID;
 	Texture* nodeSprite;

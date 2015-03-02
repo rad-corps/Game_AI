@@ -32,6 +32,7 @@ public:
 	virtual void DrawSpriteTransformed4x4(Texture *texture, float *transformMat4x4, float width = 0.0f, float height = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
 
 	virtual void DrawLine(float x1, float y1, float x2, float y2, float thickness = 1.0f);
+	virtual void DrawArrow(float x1, float y1, float x2, float y2, float thickness = 1.0f);
 	virtual void DrawString(Font *pFont, const char *string, float xPos, float yPos, float xOrigin = 0, float yOrigin = 0);
 
 protected:
