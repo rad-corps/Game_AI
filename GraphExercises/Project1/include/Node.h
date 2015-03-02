@@ -23,6 +23,7 @@ public:
 	NodeData GetData();
 	std::vector<Edge> GetEdges();
 	std::string ToString();
+	void MarkAsTraversed(bool traversed_ = true);
 
 private:
 	NodeData data;

@@ -48,3 +48,9 @@ Node::ToString()
 
 	return ret.str();
 }
+
+void Node::MarkAsTraversed(bool traversed_)
+{
+	data.traversed = traversed_;
+
+}

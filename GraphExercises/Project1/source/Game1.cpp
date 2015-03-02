@@ -77,6 +77,11 @@ void Game1::Update(float deltaTime)
 	{
 		graph->SetEndNode(mousePos, 8);
 	}
+	if (input->WasKeyPressed(GLFW_KEY_SPACE))
+	{
+		graph->DFS_Step();
+	}
+
 }
 
 void Game1::Draw()

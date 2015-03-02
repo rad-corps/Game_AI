@@ -7,6 +7,7 @@
 #include "Vector.h"
 #include "SpriteBatch.h"
 #include "Texture.h"
+#include <stack>
 
 class DirectedGraph
 {
@@ -31,13 +32,18 @@ public:
 	int size();
 	void Draw(SpriteBatch* spriteBatch_);
 
+	void DFS_Step();
+
 	std::string ToString();
 
 private:
 	Node* startNode;
 	Node* endNode;
+	Node* currentNode;
 
 	std::vector<Node*> graphData;
 	static int nodeID;
 	Texture* nodeSprite;
+
+	std::vector<Node*> searchStack;
 };
