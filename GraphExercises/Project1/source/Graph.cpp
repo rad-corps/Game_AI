@@ -20,49 +20,48 @@ DirectedGraph::~DirectedGraph(void)
 }
 
 void DirectedGraph::DFS_Step()
-{
+{	
 	//is this the first time we have been called? i.e. has the start node been traversed?
 	if (!startNode->GetData().traversed)
 	{
 		searchStack.push_back(startNode);
 	}
 
-
 	if (searchStack.empty())
 	{
 		return;
 	}
-	//while (!searchStack.empty())
-	//{
-		//get the top off the stack 
-		currentNode = searchStack[searchStack.size()-1];
-		searchStack.erase(searchStack.end() - 1);
 
-		//process it : ??
+	if (currentNode == endNode)
+		return;
 
+	//get the top off the stack 	
+	currentNode = searchStack[searchStack.size()-1];
+	searchStack.pop_back();
+	//searchStack.erase(searchStack.end() - 1);
 
-		//mark as traversed
-		currentNode->MarkAsTraversed(); 
+	//process it : ??
 
-		//for all of the edges that this node has, add to the stack
-		for (auto& edge : currentNode->GetEdges())
-		{
-			Node* edgeDestNode = edge.End();
+	//mark as traversed
+	currentNode->MarkAsTraversed(); 
+
+	//for all of the edges that this node has, add to the stack
+	for (auto& edge : currentNode->GetEdges())
+	{
+		Node* edgeDestNode = edge.End();
 			
-			//if this edgeDestNode has not been traversed
-			if (!edgeDestNode->GetData().traversed)
+		//if this edgeDestNode has not been traversed
+		if (!edgeDestNode->GetData().traversed)
+		{
+			//if this edgeDestNode is not already on the stack
+			if (std::find(searchStack.begin(), searchStack.end(), edgeDestNode) == searchStack.end())
 			{
-				//if this edgeDestNode is not already on the stack
-				if (std::find(searchStack.begin(), searchStack.end(), edgeDestNode) == searchStack.end())
-				{
-					//add it to the stack
-					searchStack.push_back(edgeDestNode);
-				}
+				//add it to the stack
+				searchStack.push_back(edgeDestNode);
 			}
-
 		}
-	//}
 
+	}
 }
 
 void
