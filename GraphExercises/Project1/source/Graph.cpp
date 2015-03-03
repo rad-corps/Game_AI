@@ -19,20 +19,50 @@ DirectedGraph::~DirectedGraph(void)
 	delete nodeSprite;
 }
 
+void DirectedGraph::BFS_Step()
+{
+	//is this the first time we have been called? i.e. has the start node been traversed?
+	if (!startNode->GetData().traversed)
+		searchStack.push_back(startNode);
+	
+	if (searchStack.empty() || currentNode == endNode)
+		return;
+
+	//get the top off the stack 	
+	currentNode = searchStack[0];
+	searchStack.erase(searchStack.begin());	
+
+	//process it : ??
+
+	//mark as traversed
+	currentNode->MarkAsTraversed();
+
+	//for all of the edges that this node has, add to the stack
+	for (auto& edge : currentNode->GetEdges())
+	{
+		Node* edgeDestNode = edge.End();
+
+		//if this edgeDestNode has not been traversed
+		if (!edgeDestNode->GetData().traversed)
+		{
+			//if this edgeDestNode is not already on the stack
+			if (std::find(searchStack.begin(), searchStack.end(), edgeDestNode) == searchStack.end())
+			{
+				//add it to the stack
+				searchStack.push_back(edgeDestNode);
+			}
+		}
+
+	}
+}
+
 void DirectedGraph::DFS_Step()
 {	
 	//is this the first time we have been called? i.e. has the start node been traversed?
 	if (!startNode->GetData().traversed)
-	{
 		searchStack.push_back(startNode);
-	}
-
-	if (searchStack.empty())
-	{
-		return;
-	}
-
-	if (currentNode == endNode)
+	
+	if (searchStack.empty() || currentNode == endNode)	
 		return;
 
 	//get the top off the stack 	

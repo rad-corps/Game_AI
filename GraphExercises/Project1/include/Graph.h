@@ -33,6 +33,7 @@ public:
 	void Draw(SpriteBatch* spriteBatch_);
 
 	void DFS_Step();
+	void BFS_Step();
 
 	std::string ToString();
 
