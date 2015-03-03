@@ -9,6 +9,8 @@ Description:
 #include "Application.h"
 #include "Graph.h"
 #include "Input.h"
+#include <thread>
+
 class SpriteBatch;
 
 class Game1 : public Application
@@ -32,6 +34,10 @@ protected:
 	Input* input;
 
 private:
+
+	void ThreadMain();
+	std::thread updateThread;
+	bool isRunning;
 };
 
 #endif

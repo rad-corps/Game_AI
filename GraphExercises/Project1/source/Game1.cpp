@@ -5,11 +5,23 @@
 #include "Input.h"
 #include "Vector.h"
 #include <iostream>
+#include <chrono>
+
 
 using namespace std;
 
+void Game1::ThreadMain()
+{
+	while (true)
+	{
+		graph->DFS_Step();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}
+
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+
 	spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 	input = Input::GetSingleton();
 	
@@ -79,7 +91,7 @@ void Game1::Update(float deltaTime)
 	}
 	if (input->WasKeyPressed(GLFW_KEY_D))
 	{
-		graph->DFS_Step();
+		updateThread = std::thread(&Game1::ThreadMain, this);
 	}
 	if (input->WasKeyPressed(GLFW_KEY_B))
 	{
