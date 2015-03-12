@@ -56,6 +56,12 @@ void DirectedGraph::BFS_Step()
 	}
 }
 
+void DirectedGraph::Dijkstra_Step()
+{
+
+
+}
+
 void DirectedGraph::DFS_Step()
 {	
 	//is this the first time we have been called? i.e. has the start node been traversed?

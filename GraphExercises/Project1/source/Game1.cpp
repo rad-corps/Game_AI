@@ -26,30 +26,32 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	input = Input::GetSingleton();
 	
 	graph = new DirectedGraph();
-	Node *a = graph->AddNode(Vector2(100, 100));
-	Node *b = graph->AddNode(Vector2(150, 100));
-	Node *c = graph->AddNode(Vector2(200, 100));
-	Node *d = graph->AddNode(Vector2(150, 150));
-	Node *e = graph->AddNode(Vector2(100, 200));
-	Node *f = graph->AddNode(Vector2(150, 200));
-	Node *g = graph->AddNode(Vector2(200, 200));
-	Node *h = graph->AddNode(Vector2(300, 150));
-	Node *i = graph->AddNode(Vector2(250, 100));
-	Node *j = graph->AddNode(Vector2(300, 100));
-	Node *k = graph->AddNode(Vector2(350, 100));
+	//Node *a = graph->AddNode(Vector2(100, 100));
+	//Node *b = graph->AddNode(Vector2(150, 100));
+	//Node *c = graph->AddNode(Vector2(200, 100));
+	//Node *d = graph->AddNode(Vector2(150, 150));
+	//Node *e = graph->AddNode(Vector2(100, 200));
+	//Node *f = graph->AddNode(Vector2(150, 200));
+	//Node *g = graph->AddNode(Vector2(200, 200));
+	//Node *h = graph->AddNode(Vector2(300, 150));
+	//Node *i = graph->AddNode(Vector2(250, 100));
+	//Node *j = graph->AddNode(Vector2(300, 100));
+	//Node *k = graph->AddNode(Vector2(350, 100));
 
-	graph->ConnectNodes(a, d, 1);
-	graph->ConnectNodes(b, d, 1);
-	graph->ConnectNodes(c, d, 1);
-	graph->ConnectNodes(d, h, 1);
-	graph->ConnectNodes(d, e, 1);
-	graph->ConnectNodes(d, f, 1);
-	graph->ConnectNodes(d, g, 1);
-	graph->ConnectNodes(i, h, 1);
-	graph->ConnectNodes(j, h, 1);
-	graph->ConnectNodes(k, h, 1);
+	//graph->ConnectNodes(a, d, 1);
+	//graph->ConnectNodes(b, d, 1);
+	//graph->ConnectNodes(c, d, 1);
+	//graph->ConnectNodes(d, h, 1);
+	//graph->ConnectNodes(d, e, 1);
+	//graph->ConnectNodes(d, f, 1);
+	//graph->ConnectNodes(d, g, 1);
+	//graph->ConnectNodes(i, h, 1);
+	//graph->ConnectNodes(j, h, 1);
+	//graph->ConnectNodes(k, h, 1);
 
-	std::cout << graph->ToString();
+	//std::cout << graph->ToString();
+
+	font = new Font("./Fonts/arial_20px.fnt");
 
 }
 
@@ -91,11 +93,16 @@ void Game1::Update(float deltaTime)
 	}
 	if (input->WasKeyPressed(GLFW_KEY_D))
 	{
-		updateThread = std::thread(&Game1::ThreadMain, this);
+		//updateThread = std::thread(&Game1::ThreadMain, this);
+		graph->DFS_Step();
 	}
 	if (input->WasKeyPressed(GLFW_KEY_B))
 	{
 		graph->BFS_Step();
+	}
+	if (input->WasKeyPressed(GLFW_KEY_I))
+	{
+		graph->Dijkstra_Step();
 	}
 
 }
@@ -108,6 +115,14 @@ void Game1::Draw()
 	spritebatch->Begin();
 
 	graph->Draw(spritebatch);
+
+	spritebatch->SetRenderColor(255, 255, 255, 255);
+	
+	spritebatch->DrawString(font, "S - Set start node", 10, 10);
+	spritebatch->DrawString(font, "E - Set end node", 10, 25);
+	spritebatch->DrawString(font, "B - Breadth first search step", 10, 40);
+	spritebatch->DrawString(font, "D - Depth first search step", 10, 55);
+	spritebatch->DrawString(font, "I - Dijkstra's algorithm search step", 10, 70);
 
 	spritebatch->End();
 

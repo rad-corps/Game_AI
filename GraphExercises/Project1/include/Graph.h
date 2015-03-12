@@ -34,6 +34,7 @@ public:
 
 	void DFS_Step();
 	void BFS_Step();
+	void Dijkstra_Step();
 
 	std::string ToString();
 

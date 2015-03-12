@@ -38,6 +38,8 @@ private:
 	void ThreadMain();
 	std::thread updateThread;
 	bool isRunning;
+
+	Font *font;
 };
 
 #endif
