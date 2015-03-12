@@ -116,6 +116,8 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_)
 
 			if ( startNode != endNode )
 				spriteBatch_->DrawArrow(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
+
+			//draw the cost of the node
 		}
 	}
 
@@ -234,7 +236,9 @@ void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_)
 	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
 	for ( auto& node : nodeVec )
 	{		
-		ConnectNodes(node, nodeA_, 1);
+		//get distance between nodes
+		int dist_cost = (int)(nodeA_->GetData().pos - node->GetData().pos).GetMagnitude();
+		ConnectNodes(node, nodeA_, dist_cost);
 	}
 }
 

@@ -14,6 +14,7 @@ public:
 	Edge(Node* end_, EdgeData data_);
 	~Edge(void);
 	Node* End();
+	EdgeData Data();
 
 private:
 	//Node* start;

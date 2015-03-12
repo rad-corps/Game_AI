@@ -104,6 +104,10 @@ void Game1::Update(float deltaTime)
 	{
 		graph->Dijkstra_Step();
 	}
+	if (input->WasKeyPressed(GLFW_KEY_O))
+	{
+		cout << graph->ToString() << endl;
+	}
 
 }
 
@@ -123,6 +127,7 @@ void Game1::Draw()
 	spritebatch->DrawString(font, "B - Breadth first search step", 10, 40);
 	spritebatch->DrawString(font, "D - Depth first search step", 10, 55);
 	spritebatch->DrawString(font, "I - Dijkstra's algorithm search step", 10, 70);
+	spritebatch->DrawString(font, "O - Output graph data to console", 10, 85);
 
 	spritebatch->End();
 

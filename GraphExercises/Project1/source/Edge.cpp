@@ -16,3 +16,9 @@ Edge::End()
 {
 	return end;
 }
+
+EdgeData
+Edge::Data()
+{
+	return data;
+}

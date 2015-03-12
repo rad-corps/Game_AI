@@ -43,7 +43,7 @@ Node::ToString()
 	for ( auto &edge : edges ) 
 	{
 		Node* tempNode = edge.End();
-		ret << "Node ID: " << data.nodeID << " is connected to Node: " << tempNode->data.nodeID << std::endl;
+		ret << "Node ID: " << data.nodeID << " is connected to Node: " << tempNode->data.nodeID << " cost: " << edge.Data().cost << std::endl;
 	}
 
 	return ret.str();
