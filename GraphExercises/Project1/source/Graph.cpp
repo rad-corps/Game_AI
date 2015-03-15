@@ -116,8 +116,6 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_)
 
 			if ( startNode != endNode )
 				spriteBatch_->DrawArrow(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
-
-			//draw the cost of the node
 		}
 	}
 
@@ -211,6 +209,7 @@ Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
 			return node;
 		}
 	}
+	return nullptr;
 }
 
 std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
@@ -231,14 +230,13 @@ std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
 }
 
 
-void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_)
+void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
 {
 	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
 	for ( auto& node : nodeVec )
 	{		
-		//get distance between nodes
-		int dist_cost = (int)(nodeA_->GetData().pos - node->GetData().pos).GetMagnitude();
-		ConnectNodes(node, nodeA_, dist_cost);
+		//TODO calculate cost properly
+		ConnectNodes(node, nodeA_, 1, bidirectional_);
 	}
 }
 
@@ -263,14 +261,20 @@ std::string DirectedGraph::ToString()
 	return str.str();
 }
 
-void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_)
+void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_)
 {
 	nodeA_->AddEdge(nodeB_, edgeData_);
+	
+	if (bidirectional_)
+		nodeB_->AddEdge(nodeA_, edgeData_);
 }
 
-void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_)
+void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_)
 {
 	EdgeData ed;
 	ed.cost = cost_;
 	nodeA_->AddEdge(nodeB_, ed);
+	
+	if (bidirectional_)
+		nodeB_->AddEdge(nodeA_, ed);
 }

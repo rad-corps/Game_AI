@@ -38,7 +38,7 @@ private:
 	void ThreadMain();
 	std::thread updateThread;
 	bool isRunning;
-
+	bool bidirectional;
 	Font *font;
 };
 

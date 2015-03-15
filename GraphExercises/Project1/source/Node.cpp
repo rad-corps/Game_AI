@@ -52,5 +52,4 @@ Node::ToString()
 void Node::MarkAsTraversed(bool traversed_)
 {
 	data.traversed = traversed_;
-
 }

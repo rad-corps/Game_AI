@@ -26,9 +26,9 @@ public:
 	void SetEndNode(Vector2 pos_, int tollerance_);
 	
 	Node* operator[](int index_);
-	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_);
-	void ConnectNodes(Node* nodeA_, Node* nodeB_, int cose_);
-	void ConnectCloseNodes(Node* nodeA_, int distance_);
+	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_);
+	void ConnectNodes(Node* nodeA_, Node* nodeB_, int cose_, bool bidirectional_);
+	void ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_);
 	int size();
 	void Draw(SpriteBatch* spriteBatch_);
 
@@ -44,6 +44,7 @@ private:
 	Node* currentNode;
 
 	std::vector<Node*> graphData;
+	std::vector<Edge> edges;
 	static int nodeID;
 	Texture* nodeSprite;
 

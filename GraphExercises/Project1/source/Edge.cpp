@@ -6,7 +6,6 @@ Edge::Edge(Node* end_, EdgeData data_)
 	data = data_;
 }
 
-
 Edge::~Edge(void)
 {
 }
