@@ -85,7 +85,7 @@ void Game1::Draw()
 
 	spritebatch->Begin();
 
-	graph->Draw(spritebatch);
+	graph->Draw(spritebatch, font);
 
 	spritebatch->SetRenderColor(255, 255, 255, 255);
 	

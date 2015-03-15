@@ -11,7 +11,7 @@ DirectedGraph::DirectedGraph(void)
 	nodeSprite = new Texture("./Images/nodeTexture.png");
 	startNode = nullptr;
 	endNode = nullptr;
-	
+	costFont = new Font("./Fonts/CourierNew_11px.fnt");
 }
 
 DirectedGraph::~DirectedGraph(void)
@@ -101,7 +101,7 @@ void DirectedGraph::DFS_Step()
 }
 
 void
-DirectedGraph::Draw(SpriteBatch* spriteBatch_)
+DirectedGraph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 {
 	//draw the links first
 	for (int i = 0; i < size(); ++i)
@@ -110,12 +110,23 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_)
 		//get the edge
 		for (Edge edge : node->GetEdges())
 		{
-			//draw line from this node to edge
+			
 			Node* startNode = node;
 			Node* endNode = edge.End();
 
+			//draw line from this node to edge
 			if ( startNode != endNode )
 				spriteBatch_->DrawArrow(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
+
+			//also draw the cost/distance 
+			stringstream costString;
+			costString << edge.Data().cost;
+
+			//find a spot to draw it (halfway between start and end nodes)
+			Vector2 strPos = (startNode->GetData().pos + endNode->GetData().pos) * 0.5;
+			spriteBatch_->DrawString(costFont, costString.str().c_str(), strPos.x, strPos.y);
+			
+
 		}
 	}
 
@@ -229,17 +240,6 @@ std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
 	return ret;
 }
 
-
-void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
-{
-	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
-	for ( auto& node : nodeVec )
-	{		
-		//TODO calculate cost properly
-		ConnectNodes(node, nodeA_, 1, bidirectional_);
-	}
-}
-
 Node* DirectedGraph::operator[](int index_)
 {
 	return graphData[index_];
@@ -259,6 +259,19 @@ std::string DirectedGraph::ToString()
 		str << node->ToString();
 	}
 	return str.str();
+}
+
+void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
+{
+	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
+	for (auto& node : nodeVec)
+	{
+		if (node != nodeA_)
+		{
+			int distance = (int)(node->GetData().pos - nodeA_->GetData().pos).GetMagnitude();
+			ConnectNodes(node, nodeA_, distance, bidirectional_);
+		}
+	}
 }
 
 void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_)

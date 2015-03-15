@@ -8,6 +8,7 @@
 #include "SpriteBatch.h"
 #include "Texture.h"
 #include <stack>
+#include "Font.h"
 
 class DirectedGraph
 {
@@ -30,7 +31,7 @@ public:
 	void ConnectNodes(Node* nodeA_, Node* nodeB_, int cose_, bool bidirectional_);
 	void ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_);
 	int size();
-	void Draw(SpriteBatch* spriteBatch_);
+	void Draw(SpriteBatch* spriteBatch_, Font *font_);
 
 	void DFS_Step();
 	void BFS_Step();
@@ -47,6 +48,6 @@ private:
 	std::vector<Edge> edges;
 	static int nodeID;
 	Texture* nodeSprite;
-
+	Font* costFont;
 	std::vector<Node*> searchStack;
 };
