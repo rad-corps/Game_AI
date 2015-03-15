@@ -14,6 +14,8 @@ public:
 	Edge(Node* end_, EdgeData data_);
 	~Edge(void);
 
+	void SetCost(int cost_);
+
 	Node* End();
 	EdgeData Data();
 

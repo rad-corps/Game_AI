@@ -56,6 +56,83 @@ void DirectedGraph::BFS_Step()
 	}
 }
 
+void DirectedGraph::PrepareForSearch()
+{
+	searchStack.clear();
+	openList.clear();
+	closedList.clear();
+	path.clear();
+	//set all gScores to 0 ?
+
+
+
+}
+
+std::vector<Node*> DirectedGraph::FindPathDijkstras()
+{
+	//Procedure FindPathDijkstras(startNode, List of potentialEndNodes)
+	//	Let openList be a List of Nodes
+	//	Let closedList be a List of Nodes
+
+	//	Let endNode be a Node set to NULL
+	//	Add startNode to openList
+	openList.push_back(startNode);
+
+	//	While openList is not empty
+	while (!openList.empty())
+	{
+		//	Sort openList by Node.gScore
+		std::sort(openList.begin(), openList.end());
+
+		//	Let currentNode = first item in openList
+		currentNode = openList[0];
+
+		//	// Process the node, do what you want with it. EG:
+		//if currentNode is one of the potentialEnd
+		if (currentNode == endNode)
+		{
+			//	endNode = currentNode
+			//	break out of loop
+			break;
+		}
+
+		//	remove currentNode from openList
+		openList.erase(openList.begin());
+
+		//	Add currentNode to closedList
+		closedList.push_back(currentNode);
+
+		//for all connections c in currentNode
+		for (Edge& edge : currentNode->GetEdges())
+		{
+			//	Add c.connection to openList if not in closedList
+			if (std::find(closedList.begin(), closedList.end(), edge.End()) == closedList.end())
+			{
+				openList.push_back(edge.End());
+
+				//TODO check this part of the algorithm. I think it should compare the GScore to the existing one before setting it.
+				//	c.connection.gScore = currentNode.gScore + c.cost
+				edge.End()->SetGScore(currentNode->GetData().gScore + edge.Data().cost);
+
+				//	c.connection.parent = currentNode
+				edge.End()->SetParent(currentNode);
+			}
+		}
+	}
+
+	//While currentNode != NULL
+	while (currentNode != nullptr)
+	{
+		//	Add currentNode.position to path
+		path.push_back(currentNode);
+
+		//	currentNode = currentNode.parent
+		currentNode = currentNode->GetParent();
+	}
+		
+	return path;
+}
+
 void DirectedGraph::Dijkstra_Step()
 {
 
@@ -145,6 +222,9 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 			spriteBatch_->SetRenderColor(255, 50, 50, 255);
 		if ( node == currentNode)
 			spriteBatch_->SetRenderColor(255, 255, 255, 255);
+		if (std::find(path.begin(), path.end(), node) != path.end())
+			spriteBatch_->SetRenderColor(0, 255, 0, 255);
+
 		
 		spriteBatch_->DrawSprite(nodeSprite, data.pos.x, data.pos.y);
 	}

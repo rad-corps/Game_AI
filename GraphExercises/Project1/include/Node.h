@@ -11,6 +11,7 @@ struct NodeData
 	//x/y coords go here
 	Vector2 pos;
 	bool traversed;
+	float gScore;
 };
 
 class Node
@@ -24,8 +25,13 @@ public:
 	std::vector<Edge> GetEdges();
 	std::string ToString();
 	void MarkAsTraversed(bool traversed_ = true);
+	void SetGScore(float gScore_);
+	void SetParent(Node* parent_);
+	Node* GetParent();
 
+	bool operator < (Node& node_);
 private:
+	Node* parent;
 	NodeData data;
 	std::vector<Edge> edges;
 };

@@ -2,13 +2,29 @@
 #include <sstream>
 #include <algorithm>
 
-Node::Node(NodeData data_)
+Node::Node(NodeData data_) : data(data_), parent(nullptr) {}
+
+Node::~Node(void){}
+
+//sort based on gScore
+bool Node::operator < (Node& node_)
 {
-	data = data_;
+	return this->data.gScore < node_.data.gScore;
 }
 
-Node::~Node(void)
+void Node::SetGScore(float gScore_)
 {
+	data.gScore = gScore_;
+}
+
+void Node::SetParent(Node* parent_)
+{
+	parent = parent_;
+}
+
+Node* Node::GetParent()
+{
+	return parent;
 }
 
 NodeData
@@ -21,7 +37,6 @@ std::vector<Edge> Node::GetEdges()
 {
 	return edges;
 }
-
 
 void
 Node::AddEdge(Node* end_, EdgeData data_)

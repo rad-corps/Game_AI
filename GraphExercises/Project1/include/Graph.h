@@ -35,6 +35,8 @@ public:
 
 	void DFS_Step();
 	void BFS_Step();
+	void PrepareForSearch(); //clears open and closed lists, searchStack, gScores etc.
+	std::vector<Node*> FindPathDijkstras();
 	void Dijkstra_Step();
 
 	std::string ToString();
@@ -49,5 +51,8 @@ private:
 	static int nodeID;
 	Texture* nodeSprite;
 	Font* costFont;
-	std::vector<Node*> searchStack;
+	std::vector<Node*> searchStack; //used for BFS and DFS
+	std::vector<Node*> openList; //used for dijkstra's 
+	std::vector<Node*> closedList; //used for dijkstra's 
+	std::vector<Node*> path;
 };

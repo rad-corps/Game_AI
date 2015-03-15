@@ -68,7 +68,10 @@ void Game1::Update(float deltaTime)
 		graph->BFS_Step();
 	
 	if (input->WasKeyPressed(GLFW_KEY_I))
-		graph->Dijkstra_Step();
+	{
+		vector<Node*> path = graph->FindPathDijkstras();
+		int x = 0;
+	}
 	
 	if (input->WasKeyPressed(GLFW_KEY_O))
 		cout << graph->ToString() << endl;

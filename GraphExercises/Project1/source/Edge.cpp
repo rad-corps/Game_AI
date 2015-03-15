@@ -21,3 +21,8 @@ Edge::Data()
 {
 	return data;
 }
+
+void Edge::SetCost(int cost_)
+{
+	data.cost = cost_;
+}
