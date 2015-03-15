@@ -64,18 +64,27 @@ void DirectedGraph::PrepareForSearch()
 	path.clear();
 	//set all gScores to 0 ?
 
+	for (Node* node : graphData)
+	{
+		node->SetGScore(0);
+		node->MarkAsTraversed(false);
+	}
 
-
+	currentNode = nullptr;
 }
 
 std::vector<Node*> DirectedGraph::FindPathDijkstras()
 {
-	//Procedure FindPathDijkstras(startNode, List of potentialEndNodes)
-	//	Let openList be a List of Nodes
-	//	Let closedList be a List of Nodes
 
-	//	Let endNode be a Node set to NULL
-	//	Add startNode to openList
+	//set startNode to 0 and all other gScores to infinity
+	for (Node* node : graphData)
+	{
+		if (node != startNode)
+			node->SetGScore(INT_MAX);
+		else
+			node->SetGScore(0);
+	}
+
 	openList.push_back(startNode);
 
 	//	While openList is not empty
@@ -110,12 +119,14 @@ std::vector<Node*> DirectedGraph::FindPathDijkstras()
 			{
 				openList.push_back(edge.End());
 
-				//TODO check this part of the algorithm. I think it should compare the GScore to the existing one before setting it.
-				//	c.connection.gScore = currentNode.gScore + c.cost
-				edge.End()->SetGScore(currentNode->GetData().gScore + edge.Data().cost);
+				if (currentNode->GetData().gScore + edge.Data().cost < edge.End()->GetData().gScore)
+				{
+					//	c.connection.gScore = currentNode.gScore + c.cost
+					edge.End()->SetGScore(currentNode->GetData().gScore + edge.Data().cost);
 
-				//	c.connection.parent = currentNode
-				edge.End()->SetParent(currentNode);
+					//	c.connection.parent = currentNode
+					edge.End()->SetParent(currentNode);
+				}				
 			}
 		}
 	}

@@ -12,7 +12,7 @@ bool Node::operator < (Node& node_)
 	return this->data.gScore < node_.data.gScore;
 }
 
-void Node::SetGScore(float gScore_)
+void Node::SetGScore(int gScore_)
 {
 	data.gScore = gScore_;
 }

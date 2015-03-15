@@ -68,16 +68,16 @@ void Game1::Update(float deltaTime)
 		graph->BFS_Step();
 	
 	if (input->WasKeyPressed(GLFW_KEY_I))
-	{
-		vector<Node*> path = graph->FindPathDijkstras();
-		int x = 0;
-	}
+		graph->FindPathDijkstras();
 	
 	if (input->WasKeyPressed(GLFW_KEY_O))
 		cout << graph->ToString() << endl;
 
 	if (input->WasKeyPressed(GLFW_KEY_1))
 		bidirectional = !bidirectional;
+
+	if (input->WasKeyPressed(GLFW_KEY_C))
+		graph->PrepareForSearch();
 	
 }
 
@@ -93,13 +93,14 @@ void Game1::Draw()
 	spritebatch->SetRenderColor(255, 255, 255, 255);
 	
 	spritebatch->DrawString(font, "S - Set start node", 10, 10);
-	spritebatch->DrawString(font, "E - Set end node", 10, 30);
+	spritebatch->DrawString(font, "E - Set end node", 10, 30);	
 	spritebatch->DrawString(font, "B - Breadth first search step", 10, 50);
 	spritebatch->DrawString(font, "D - Depth first search step", 10, 70);
-	spritebatch->DrawString(font, "I - Dijkstra's algorithm search step", 10, 90);
+	spritebatch->DrawString(font, "I - Dijkstra's algorithm search", 10, 90);
 	spritebatch->DrawString(font, "O - Output graph data to console", 10, 110);
 	spritebatch->DrawString(font, "1 - Toggle Bidirectional/Directional", 10, 130);
 	bidirectional ? spritebatch->DrawString(font, "Bidirectional", 10, 150) : spritebatch->DrawString(font, "Directional", 10, 150);
+	spritebatch->DrawString(font, "C - Clear Search Data", 10, 170);
 
 	spritebatch->End();
 
