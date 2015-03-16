@@ -8,6 +8,7 @@ Description:
 
 #include "Application.h"
 #include "Graph.h"
+#include "PathFinder.h"
 #include "Input.h"
 #include <thread>
 
@@ -30,7 +31,8 @@ public:
 protected:
 
 	SpriteBatch *spritebatch;
-	DirectedGraph *graph;
+	Graph *graph;
+	PathFinder *pathFinder;
 	Input* input;
 
 private:

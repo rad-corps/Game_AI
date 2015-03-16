@@ -23,12 +23,10 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 {
 
 	spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
-	input = Input::GetSingleton();
-	
-	graph = new DirectedGraph();
-
+	input = Input::GetSingleton();	
+	graph = new Graph();
+	pathFinder = new PathFinder();
 	font = new Font("./Fonts/arial_20px.fnt");
-
 	bidirectional = true;
 }
 
@@ -68,7 +66,10 @@ void Game1::Update(float deltaTime)
 		graph->BFS_Step();
 	
 	if (input->WasKeyPressed(GLFW_KEY_I))
-		graph->FindPathDijkstras();
+	{
+		std::vector<Node*> nodes = pathFinder->Dijkstras(*graph);
+		graph->SetHilightedNodes(nodes);
+	}
 	
 	if (input->WasKeyPressed(GLFW_KEY_O))
 		cout << graph->ToString() << endl;

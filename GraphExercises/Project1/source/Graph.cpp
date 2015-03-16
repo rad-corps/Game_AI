@@ -4,9 +4,9 @@
 
 using namespace std;
 
-int DirectedGraph::nodeID = 0;
+int Graph::nodeID = 0;
 
-DirectedGraph::DirectedGraph(void)
+Graph::Graph(void)
 {
 	nodeSprite = new Texture("./Images/nodeTexture.png");
 	startNode = nullptr;
@@ -14,12 +14,34 @@ DirectedGraph::DirectedGraph(void)
 	costFont = new Font("./Fonts/CourierNew_11px.fnt");
 }
 
-DirectedGraph::~DirectedGraph(void)
+Graph::~Graph(void)
 {
 	delete nodeSprite;
 }
 
-void DirectedGraph::BFS_Step()
+void
+Graph::SetHilightedNodes(vector<Node*> highlitedNodes_)
+{
+	highlitedNodes = highlitedNodes_;
+}
+
+Node* Graph::StartNode()
+{
+	return startNode;
+}
+
+Node* Graph::EndNode()
+{
+	return endNode;
+}
+
+std::vector<Node*> 
+Graph::GraphData(void)
+{
+	return graphData;
+}
+
+void Graph::BFS_Step()
 {
 	//is this the first time we have been called? i.e. has the start node been traversed?
 	if (!startNode->GetData().traversed)
@@ -56,7 +78,7 @@ void DirectedGraph::BFS_Step()
 	}
 }
 
-void DirectedGraph::PrepareForSearch()
+void Graph::PrepareForSearch()
 {
 	searchStack.clear();
 	openList.clear();
@@ -73,7 +95,7 @@ void DirectedGraph::PrepareForSearch()
 	currentNode = nullptr;
 }
 
-std::vector<Node*> DirectedGraph::FindPathDijkstras()
+std::vector<Node*> Graph::FindPathDijkstras()
 {
 
 	//set startNode to 0 and all other gScores to infinity
@@ -144,13 +166,13 @@ std::vector<Node*> DirectedGraph::FindPathDijkstras()
 	return path;
 }
 
-void DirectedGraph::Dijkstra_Step()
+void Graph::Dijkstra_Step()
 {
 
 
 }
 
-void DirectedGraph::DFS_Step()
+void Graph::DFS_Step()
 {	
 	//is this the first time we have been called? i.e. has the start node been traversed?
 	if (!startNode->GetData().traversed)
@@ -189,7 +211,7 @@ void DirectedGraph::DFS_Step()
 }
 
 void
-DirectedGraph::Draw(SpriteBatch* spriteBatch_, Font *font_)
+Graph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 {
 	//draw the links first
 	for (int i = 0; i < size(); ++i)
@@ -233,7 +255,7 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 			spriteBatch_->SetRenderColor(255, 50, 50, 255);
 		if ( node == currentNode)
 			spriteBatch_->SetRenderColor(255, 255, 255, 255);
-		if (std::find(path.begin(), path.end(), node) != path.end())
+		if (std::find(highlitedNodes.begin(), highlitedNodes.end(), node) != highlitedNodes.end())
 			spriteBatch_->SetRenderColor(0, 255, 0, 255);
 
 		
@@ -242,7 +264,7 @@ DirectedGraph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 }
 
 Node*
-DirectedGraph::AddNode(NodeData data_)
+Graph::AddNode(NodeData data_)
 {
 	Node *nodePtr = new Node(data_);
 	graphData.push_back(nodePtr);
@@ -250,7 +272,7 @@ DirectedGraph::AddNode(NodeData data_)
 }
 
 Node*
-DirectedGraph::AddNode(Vector2 pos_)
+Graph::AddNode(Vector2 pos_)
 {
 	NodeData nd;
 	nd.pos = pos_;
@@ -264,7 +286,7 @@ DirectedGraph::AddNode(Vector2 pos_)
 	return nodePtr;
 }
 
-void DirectedGraph::RemoveNode(Node* node_)
+void Graph::RemoveNode(Node* node_)
 {
 	//remove any edges associated with this node
 	for ( auto &node : graphData )
@@ -281,7 +303,7 @@ void DirectedGraph::RemoveNode(Node* node_)
 	}
 }
 
-void DirectedGraph::RemoveNodeIf(Vector2 pos_, int tollerance_)
+void Graph::RemoveNodeIf(Vector2 pos_, int tollerance_)
 {
 	vector<Node*> nodeVec = FindNodes(pos_, tollerance_);
 	for (auto& node : nodeVec )
@@ -290,17 +312,17 @@ void DirectedGraph::RemoveNodeIf(Vector2 pos_, int tollerance_)
 	}
 }
 
-void DirectedGraph::SetStartNode(Vector2 pos_, int tollerance_)
+void Graph::SetStartNode(Vector2 pos_, int tollerance_)
 {
 	startNode = FindNode(pos_, tollerance_);
 }
 
-void DirectedGraph::SetEndNode(Vector2 pos_, int tollerance_)
+void Graph::SetEndNode(Vector2 pos_, int tollerance_)
 {
 	endNode = FindNode(pos_, tollerance_);
 }
 
-Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
+Node* Graph::FindNode(Vector2 pos_, int tollerance_)
 {
 	for (auto &node : graphData)
 	{
@@ -314,7 +336,7 @@ Node* DirectedGraph::FindNode(Vector2 pos_, int tollerance_)
 	return nullptr;
 }
 
-std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
+std::vector<Node*> Graph::FindNodes(Vector2 pos_, int tollerance_)
 {
 	vector<Node*> ret;
 	
@@ -331,18 +353,18 @@ std::vector<Node*> DirectedGraph::FindNodes(Vector2 pos_, int tollerance_)
 	return ret;
 }
 
-Node* DirectedGraph::operator[](int index_)
+Node* Graph::operator[](int index_)
 {
 	return graphData[index_];
 }
 
 int
-DirectedGraph::size()
+Graph::size()
 {
 	return graphData.size();
 }
 
-std::string DirectedGraph::ToString()
+std::string Graph::ToString()
 {
 	std::stringstream str;
 	for ( auto &node : graphData ) 
@@ -352,7 +374,7 @@ std::string DirectedGraph::ToString()
 	return str.str();
 }
 
-void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
+void Graph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
 {
 	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
 	for (auto& node : nodeVec)
@@ -365,7 +387,7 @@ void DirectedGraph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirect
 	}
 }
 
-void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_)
+void Graph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_)
 {
 	nodeA_->AddEdge(nodeB_, edgeData_);
 	
@@ -373,7 +395,7 @@ void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_,
 		nodeB_->AddEdge(nodeA_, edgeData_);
 }
 
-void DirectedGraph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_)
+void Graph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_)
 {
 	EdgeData ed;
 	ed.cost = cost_;

@@ -8,7 +8,6 @@
 struct NodeData
 {
 	int nodeID;
-	//x/y coords go here
 	Vector2 pos;
 	bool traversed;
 	int gScore;

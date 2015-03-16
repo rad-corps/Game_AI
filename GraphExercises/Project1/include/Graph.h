@@ -10,21 +10,25 @@
 #include <stack>
 #include "Font.h"
 
-class DirectedGraph
+class Graph
 {
 public:
-	DirectedGraph(void);
-	~DirectedGraph(void);
-
+	Graph(void);
+	~Graph(void);
+	std::vector<Node*> GraphData();
 	Node* AddNode(NodeData data_);
 	Node* AddNode(Vector2 data_);
 	Node* FindNode(Vector2 pos_, int tollerance_);
 	std::vector<Node*> FindNodes(Vector2 pos_, int tollerance_);
+	void SetHilightedNodes(std::vector<Node*> highlitedNodes_);
 	
 	void RemoveNode(Node* node_);
 	void RemoveNodeIf(Vector2 pos_, int tollerance_);
 	void SetStartNode(Vector2 pos_, int tollerance_);
 	void SetEndNode(Vector2 pos_, int tollerance_);
+
+	Node* StartNode();
+	Node* EndNode();
 	
 	Node* operator[](int index_);
 	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_);
@@ -47,6 +51,7 @@ private:
 	Node* currentNode;
 
 	std::vector<Node*> graphData;
+	std::vector<Node*> highlitedNodes;
 	std::vector<Edge> edges;
 	static int nodeID;
 	Texture* nodeSprite;
