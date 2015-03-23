@@ -118,8 +118,8 @@ void Game1::Draw()
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
 	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);
 	renderer->Draw(nodeRenderData.currentNode, 255, 255, 255, 255);
-	renderer->Draw(nodeRenderData.beginNode, 255, 255, 0, 255);
-	renderer->Draw(nodeRenderData.endNode, 0, 255, 255, 255);
+	//renderer->Draw(nodeRenderData.beginNode, 255, 255, 0, 255);
+	//renderer->Draw(nodeRenderData.endNode, 0, 255, 255, 255);
 
 	if (path.size() > 0)
 	{
