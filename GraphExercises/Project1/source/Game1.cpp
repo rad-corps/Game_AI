@@ -8,28 +8,29 @@
 #include <chrono>
 #include <stdlib.h>//srand rand
 #include <time.h>
+#include <sstream>
 
 
 using namespace std;
 
 void Game1::AStarThread()
 {
-	path = pathFinder->AStar(*graph, nodeRenderData);
+	path = pathFinder->AStar(*graph, nodeRenderData, speed);
 	threadRunning = false;
 }
 void Game1::DijkstrasThread()
 {
-	path = pathFinder->Dijkstras(*graph, nodeRenderData);
+	path = pathFinder->Dijkstras(*graph, nodeRenderData, speed);
 	threadRunning = false;
 }
 void Game1::DFSThread()
 {
-	path = pathFinder->DFS(*graph, nodeRenderData);
+	path = pathFinder->DFS(*graph, nodeRenderData, speed);
 	threadRunning = false;
 }
 void Game1::BFSThread()
 {
-	path = pathFinder->BFS(*graph, nodeRenderData);
+	path = pathFinder->BFS(*graph, nodeRenderData, speed);
 	threadRunning = false;
 }
 
@@ -49,6 +50,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	renderer = new Renderer(spritebatch);
 	threadRunning = false;
 	RegenerateNodes();
+	speed = 100;
 }
 
 Game1::~Game1()
@@ -153,19 +155,27 @@ void Game1::Update(float deltaTime)
 		path.clear();
 	}
 	
+	if (input->WasKeyPressed(GLFW_KEY_2))
+	{
+		RegenerateNodes();
+		nodeRenderData.Clear();
+		path.clear();
+	}
+
 	if (input->WasKeyPressed(GLFW_KEY_3))
 	{
 		graph->Clear();
 		nodeRenderData.Clear();
 		path.clear();
 	}
-	
-	if (input->WasKeyPressed(GLFW_KEY_2))
+
+	if (input->WasKeyPressed(GLFW_KEY_4))
 	{
-		RegenerateNodes();
-		nodeRenderData.Clear();
-		path.clear();	
+		speed *= 2;
+		if (speed > 2000) speed = 100;
 	}
+	
+	
 	
 }
 
@@ -198,6 +208,9 @@ void Game1::Draw()
 	DrawText("1 - Clear Search Data");
 	DrawText("2 - Regenerate Random Graph");
 	DrawText("3 - Remove Graph");
+	stringstream speedStr;
+	speedStr << "4 - Speed " << speed;
+	DrawText(speedStr.str());
 	
 
 	renderer->Draw(graph->GraphData(), 0, 0, 255, 255);

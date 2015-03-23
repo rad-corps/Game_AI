@@ -54,6 +54,7 @@ private:
 	NodeRenderData nodeRenderData;
 	std::vector<Node*> path;
 	Renderer* renderer;
+	int speed;
 };
 
 #endif
