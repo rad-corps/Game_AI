@@ -22,6 +22,16 @@ void Game1::DijkstrasThread()
 	path = pathFinder->Dijkstras(*graph, nodeRenderData);
 	threadRunning = false;
 }
+void Game1::DFSThread()
+{
+	path = pathFinder->DFS(*graph, nodeRenderData);
+	threadRunning = false;
+}
+void Game1::BFSThread()
+{
+	path = pathFinder->BFS(*graph, nodeRenderData);
+	threadRunning = false;
+}
 
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
@@ -93,11 +103,23 @@ void Game1::Update(float deltaTime)
 	if (input->WasKeyPressed(GLFW_KEY_E))
 		graph->SetEndNode(mousePos, 8);
 	
-//	if (input->WasKeyPressed(GLFW_KEY_D))
-//		graph->DFS_Step();
+	if (input->WasKeyPressed(GLFW_KEY_D))
+	{
+		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr && !threadRunning)
+		{
+			threadRunning = true;
+			searchThread = std::thread(&Game1::DFSThread, this);
+		}
+	}
 	
-//	if (input->WasKeyPressed(GLFW_KEY_B))
-//		graph->BFS_Step();
+	if (input->WasKeyPressed(GLFW_KEY_B))
+	{
+		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr && !threadRunning)
+		{
+			threadRunning = true;
+			searchThread = std::thread(&Game1::BFSThread, this);
+		}
+	}
 	
 	if (input->WasKeyPressed(GLFW_KEY_I))
 	{		
@@ -172,8 +194,7 @@ void Game1::Draw()
 	DrawText("I - Dijkstra's algorithm search");
 	DrawText("A - Perform A Star Search");
 	DrawText("O - Output graph data to console");
-	DrawText("T - Toggle Bidirectional/Directional");
-	bidirectional ? DrawText("Bidirectional") : DrawText("Directional");
+	bidirectional ? DrawText("T - Bidirectional On") : DrawText("T - Directional On");
 	DrawText("1 - Clear Search Data");
 	DrawText("2 - Regenerate Random Graph");
 	DrawText("3 - Remove Graph");
@@ -183,7 +204,7 @@ void Game1::Draw()
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
 	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);	
 	renderer->Draw(graph->StartNode(), 255, 150, 0, 255);
-	renderer->Draw(graph->EndNode(), 0, 255, 255, 255);
+	renderer->Draw(graph->EndNode(), 255, 0, 255, 255);
 	renderer->Draw(nodeRenderData.currentNode, 255, 255, 255, 255);
 
 

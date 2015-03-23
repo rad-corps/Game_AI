@@ -28,6 +28,12 @@ struct PF_NodeQueue
 		queue.erase(queue.begin());
 		return ret;
 	}
+	PF_Node RemoveLastElem()
+	{
+		PF_Node ret = queue[queue.size()-1];
+		queue.erase(queue.end()-1);
+		return ret;
+	}
 	void PushBack(const PF_Node& node_){ queue.push_back(node_); }
 	PF_Node& Find(Node* node_)
 	{ 
@@ -98,10 +104,10 @@ public:
 	PathFinder();
 	~PathFinder();
 
-	std::vector<Node*> Dijkstras(const Graph& graph_, NodeRenderData& renderData_);
-	std::vector<Node*> AStar(const Graph& graph_, NodeRenderData& renderData_);
-	std::vector<Node*> BFS(const Graph& graph_);
-	std::vector<Node*> DFS(const Graph& graph_);
+	std::vector<Node*> Dijkstras(const Graph& graph_, NodeRenderData& renderData_, int speedMillis_ = 250);
+	std::vector<Node*> AStar(const Graph& graph_, NodeRenderData& renderData_, int speedMillis_ = 250);
+	std::vector<Node*> BFS(const Graph& graph_, NodeRenderData& renderData_, int speedMillis_ = 250);
+	std::vector<Node*> DFS(const Graph& graph_, NodeRenderData& renderData_, int speedMillis_ = 250);
 
 private:
 

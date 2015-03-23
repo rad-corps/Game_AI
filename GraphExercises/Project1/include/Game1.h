@@ -44,6 +44,8 @@ private:
 	int yText;
 	void AStarThread();
 	void DijkstrasThread();
+	void DFSThread();
+	void BFSThread();
 	std::thread searchThread;
 	bool bidirectional;
 	Font *font;
