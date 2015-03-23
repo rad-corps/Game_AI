@@ -87,6 +87,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\Renderer.cpp" />
     <ClCompile Include="source\PathFinder.cpp" />
     <ClCompile Include="source\Edge.cpp" />
     <ClCompile Include="source\Game1.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="include\Graph.h" />
     <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\PathFinder.h" />
+    <ClInclude Include="include\Renderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
