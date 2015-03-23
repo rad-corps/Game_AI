@@ -19,6 +19,11 @@ Graph::~Graph(void)
 	delete nodeSprite;
 }
 
+void Graph::Clear()
+{
+	graphData.clear();
+}
+
 void
 Graph::SetHilightedNodes(vector<Node*> highlitedNodes_)
 {

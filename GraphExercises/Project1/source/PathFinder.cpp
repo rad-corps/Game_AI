@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 
 PathFinder::PathFinder()
@@ -94,6 +95,8 @@ std::vector<Node*> PathFinder::AStar(const Graph& graph_, NodeRenderData& render
 
 	while (!openList.Empty())
 	{
+		auto start_time = std::chrono::high_resolution_clock::now();
+
 		openList.Sort();
 		currentNode = openList.RemoveFirstElem();
 		renderData_.currentNode = currentNode.node;
@@ -122,7 +125,10 @@ std::vector<Node*> PathFinder::AStar(const Graph& graph_, NodeRenderData& render
 				renderData_.openList.push_back(edge.End());
 			}
 		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		auto end_time = std::chrono::high_resolution_clock::now();
+		auto time = end_time - start_time;
+		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(time).count() << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	}
 
 	return masterList.Path(currentNode);

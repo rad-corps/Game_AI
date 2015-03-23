@@ -93,8 +93,6 @@ struct NodeRenderData
 	std::vector<Node*> openList;
 	std::vector<Node*> closedList;
 	Node* currentNode;	
-	Node* beginNode;
-	Node* endNode;
 };
 
 #pragma once

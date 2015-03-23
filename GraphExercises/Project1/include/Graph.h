@@ -21,6 +21,7 @@ public:
 	Node* FindNode(Vector2 pos_, int tollerance_);
 	std::vector<Node*> FindNodes(Vector2 pos_, int tollerance_);
 	void SetHilightedNodes(std::vector<Node*> highlitedNodes_);
+	void Clear();
 	
 	void RemoveNode(Node* node_);
 	void RemoveNodeIf(Vector2 pos_, int tollerance_);

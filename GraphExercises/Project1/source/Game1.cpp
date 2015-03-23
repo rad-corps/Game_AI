@@ -6,18 +6,25 @@
 #include "Vector.h"
 #include <iostream>
 #include <chrono>
+#include <stdlib.h>//srand rand
+#include <time.h>
 
 
 using namespace std;
 
 void Game1::ThreadMain()
 {
-	pathFinder->AStar(*graph, nodeRenderData);
+	pathReady = false;
+	path = pathFinder->AStar(*graph, nodeRenderData);
+	pathReady = true;
 }
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+	srand(time(NULL));
 	nodeRenderData.currentNode = nullptr;
+//	nodeRenderData.endNode = nullptr;
+//	nodeRenderData.beginNode = nullptr;
 	spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 	input = Input::GetSingleton();	
 	graph = new Graph();
@@ -25,6 +32,9 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	font = new Font("./Fonts/arial_20px.fnt");
 	bidirectional = true;
 	renderer = new Renderer(spritebatch);
+	pathReady = false;
+	RegenerateNodes();
+	pathReady = false;
 }
 
 Game1::~Game1()
@@ -33,11 +43,22 @@ Game1::~Game1()
 	delete graph;
 }
 
+void Game1::RegenerateNodes()
+{
+	graph->Clear();
+	//create 50 random nodes between 0 and 760
+	for (int i = 0; i < 40; ++i)
+	{
+		Node* node = graph->AddNode(Vector2(rand() % 760, rand() % 760));
+		graph->ConnectCloseNodes(node, 200, bidirectional);
+	}
+}
+
 void Game1::Update(float deltaTime)
 {
 	//get the mouse position
 	int x, y;
-	input->GetMouseXY(&x, &y);
+	input->GetMouseXY(&x, &y);	
 	Vector2 mousePos(x,y);
 
 	//add a node where the mouse was clicked
@@ -89,6 +110,12 @@ void Game1::Update(float deltaTime)
 	if (input->WasKeyPressed(GLFW_KEY_C))
 		graph->PrepareForSearch();
 	
+	if (input->WasKeyPressed(GLFW_KEY_1))
+		graph->Clear();
+	
+	if (input->WasKeyPressed(GLFW_KEY_2))
+		RegenerateNodes();
+	
 }
 
 void Game1::Draw()
@@ -112,18 +139,21 @@ void Game1::Draw()
 	spritebatch->DrawString(font, "1 - Toggle Bidirectional/Directional", 10, 150);
 	bidirectional ? spritebatch->DrawString(font, "Bidirectional", 10, 170) : spritebatch->DrawString(font, "Directional", 10, 150);
 	spritebatch->DrawString(font, "C - Clear Search Data", 10, 190);
+	
 	spritebatch->DrawString(font, "A - Perform A Star Search", 10, 210);
+	spritebatch->DrawString(font, "1 - Clear Graph", 10, 230);
+	spritebatch->DrawString(font, "2 - Regenerate Random Graph", 10, 250);
 
 	renderer->Draw(graph->GraphData(), 0, 0, 255, 255);
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
-	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);
+	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);	
+	renderer->Draw(graph->StartNode(), 255, 255, 0, 255);
+	renderer->Draw(graph->EndNode(), 0, 255, 255, 255);
 	renderer->Draw(nodeRenderData.currentNode, 255, 255, 255, 255);
-	//renderer->Draw(nodeRenderData.beginNode, 255, 255, 0, 255);
-	//renderer->Draw(nodeRenderData.endNode, 0, 255, 255, 255);
 
-	if (path.size() > 0)
+	if (pathReady)
 	{
-		renderer->Draw(path, 100, 100, 100, 150);
+		renderer->Draw(path, 255, 255, 255, 255);
 	}
 
 	spritebatch->End();

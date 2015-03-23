@@ -28,6 +28,7 @@ public:
 	// update / draw called each frame automaticly
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+	void RegenerateNodes();
 
 protected:
 
@@ -43,6 +44,7 @@ private:
 	bool isRunning;
 	bool bidirectional;
 	Font *font;
+	bool pathReady;
 
 	NodeRenderData nodeRenderData;
 	std::vector<Node*> path;
