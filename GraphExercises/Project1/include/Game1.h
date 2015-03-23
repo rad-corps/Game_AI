@@ -42,11 +42,12 @@ protected:
 
 private:
 	int yText;
-	void ThreadMain();
+	void AStarThread();
+	void DijkstrasThread();
 	std::thread searchThread;
 	bool bidirectional;
 	Font *font;
-	std::atomic<bool> pathReady;
+	std::atomic<bool> threadRunning;
 
 	NodeRenderData nodeRenderData;
 	std::vector<Node*> path;

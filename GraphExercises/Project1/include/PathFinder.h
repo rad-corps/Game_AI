@@ -4,23 +4,6 @@
 #include <map>
 #include <algorithm>
 
-class NodePathFinderData
-{
-public:
-	Node* node;
-	Node* parent;
-	int gScore;
-
-	bool operator < (NodePathFinderData& npfd_)
-	{
-		return this->gScore < npfd_.gScore;
-	}
-	bool operator == (NodePathFinderData node_)
-	{
-		return this->node == node_.node;
-	}
-};
-
 struct PF_Node
 {	
 	Node* node;
@@ -115,8 +98,7 @@ public:
 	PathFinder();
 	~PathFinder();
 
-	std::vector<Node*> Dijkstras(const Graph& graph_);//relies on NodePathFinderData structure
-	std::vector<Node*> Dijkstras2(const Graph& graph_);
+	std::vector<Node*> Dijkstras(const Graph& graph_, NodeRenderData& renderData_);
 	std::vector<Node*> AStar(const Graph& graph_, NodeRenderData& renderData_);
 	std::vector<Node*> BFS(const Graph& graph_);
 	std::vector<Node*> DFS(const Graph& graph_);

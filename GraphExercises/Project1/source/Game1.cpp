@@ -12,12 +12,17 @@
 
 using namespace std;
 
-void Game1::ThreadMain()
+void Game1::AStarThread()
 {
-	pathReady = false;
 	path = pathFinder->AStar(*graph, nodeRenderData);
-	pathReady = true;
+	threadRunning = false;
 }
+void Game1::DijkstrasThread()
+{
+	path = pathFinder->Dijkstras(*graph, nodeRenderData);
+	threadRunning = false;
+}
+
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
@@ -32,9 +37,8 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	font = new Font("./Fonts/CourierNew_11px.fnt");
 	bidirectional = true;
 	renderer = new Renderer(spritebatch);
-	pathReady = false;
+	threadRunning = false;
 	RegenerateNodes();
-	pathReady = false;
 }
 
 Game1::~Game1()
@@ -96,21 +100,21 @@ void Game1::Update(float deltaTime)
 //		graph->BFS_Step();
 	
 	if (input->WasKeyPressed(GLFW_KEY_I))
-	{
-		std::vector<Node*> nodes = pathFinder->Dijkstras(*graph);
-		graph->SetHilightedNodes(nodes);
-	}
-
-	if (input->WasKeyPressed(GLFW_KEY_J))
-	{
-		std::vector<Node*> nodes = pathFinder->Dijkstras2(*graph);
-		graph->SetHilightedNodes(nodes);
+	{		
+		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr && !threadRunning)
+		{
+			threadRunning = true;
+			searchThread = std::thread(&Game1::DijkstrasThread, this);
+		}
 	}
 
 	if (input->WasKeyPressed(GLFW_KEY_A))
 	{
-		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr)
-			searchThread = std::thread(&Game1::ThreadMain, this);		
+		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr && !threadRunning)
+		{
+			threadRunning = true;
+			searchThread = std::thread(&Game1::AStarThread, this);
+		}
 	}
 
 	
@@ -182,10 +186,13 @@ void Game1::Draw()
 	renderer->Draw(graph->EndNode(), 0, 255, 255, 255);
 	renderer->Draw(nodeRenderData.currentNode, 255, 255, 255, 255);
 
-	if (pathReady)
+
+	if (!threadRunning && searchThread.joinable())
 	{
-		if (searchThread.joinable())
-			searchThread.join();
+		searchThread.join();		
+	}
+	if (!threadRunning)
+	{
 		renderer->Draw(path, 255, 255, 255, 255);
 	}
 
