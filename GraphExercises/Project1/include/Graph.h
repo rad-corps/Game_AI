@@ -15,7 +15,7 @@ class Graph
 public:
 	Graph(void);
 	~Graph(void);
-	std::vector<Node*> GraphData();
+	std::vector<Node*> GraphData() const;
 	Node* AddNode(NodeData data_);
 	Node* AddNode(Vector2 data_);
 	Node* FindNode(Vector2 pos_, int tollerance_);
@@ -27,8 +27,8 @@ public:
 	void SetStartNode(Vector2 pos_, int tollerance_);
 	void SetEndNode(Vector2 pos_, int tollerance_);
 
-	Node* StartNode();
-	Node* EndNode();
+	Node* StartNode() const;
+	Node* EndNode() const;
 	
 	Node* operator[](int index_);
 	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_);
@@ -37,22 +37,23 @@ public:
 	int size();
 	void Draw(SpriteBatch* spriteBatch_, Font *font_);
 
-	void DFS_Step();
-	void BFS_Step();
+	//void DFS_Step();
+	//void BFS_Step();
 	void PrepareForSearch(); //clears open and closed lists, searchStack, gScores etc.
-	std::vector<Node*> FindPathDijkstras();
-	void Dijkstra_Step();
+	//std::vector<Node*> FindPathDijkstras();
+	//void Dijkstra_Step();
 
 	std::string ToString();
 
 private:
+	//todo comment out below 3
 	Node* startNode;
 	Node* endNode;
 	Node* currentNode;
 
 	std::vector<Node*> graphData;
 	std::vector<Node*> highlitedNodes;
-	std::vector<Edge> edges;
+	//std::vector<Edge> edges;
 	static int nodeID;
 	Texture* nodeSprite;
 	Font* costFont;

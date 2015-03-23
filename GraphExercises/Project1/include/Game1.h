@@ -11,6 +11,7 @@ Description:
 #include "PathFinder.h"
 #include "Input.h"
 #include <thread>
+#include "Renderer.h"
 
 class SpriteBatch;
 
@@ -38,10 +39,14 @@ protected:
 private:
 
 	void ThreadMain();
-	std::thread updateThread;
+	std::thread searchThread;
 	bool isRunning;
 	bool bidirectional;
 	Font *font;
+
+	NodeRenderData nodeRenderData;
+	std::vector<Node*> path;
+	Renderer* renderer;
 };
 
 #endif
