@@ -29,6 +29,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	void RegenerateNodes();
+	Vector2 GenRandVector();
 
 protected:
 

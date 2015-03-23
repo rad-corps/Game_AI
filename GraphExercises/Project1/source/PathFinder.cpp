@@ -121,14 +121,20 @@ std::vector<Node*> PathFinder::AStar(const Graph& graph_, NodeRenderData& render
 					masterList[edge.End()].parent = currentNode.node;
 				}
 
-				openList.PushBack(masterList[edge.End()]);
-				renderData_.openList.push_back(edge.End());
+				if (!openList.Contains(masterList[edge.End()]))
+				{
+					openList.PushBack(masterList[edge.End()]);
+					renderData_.openList.push_back(edge.End());
+				}				
 			}
 		}
 		auto end_time = std::chrono::high_resolution_clock::now();
 		auto time = end_time - start_time;
-		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(time).count() << endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(time).count() << endl;
+		std::cout << "openList size: " << openList.Size() << endl;
+		std::cout << "closedList size: " << closedList.Size() << endl;
+		
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	}
 
 	return masterList.Path(currentNode);

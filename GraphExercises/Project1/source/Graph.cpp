@@ -316,6 +316,13 @@ void Graph::RemoveNodeIf(Vector2 pos_, int tollerance_)
 	}
 }
 
+bool Graph::NodeWithin(Vector2 pos_, int tollerance_)
+{
+	if (FindNode(pos_, tollerance_) == nullptr)
+		return false;
+	return true;
+}
+
 void Graph::SetStartNode(Vector2 pos_, int tollerance_)
 {
 	startNode = FindNode(pos_, tollerance_);

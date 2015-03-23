@@ -43,13 +43,25 @@ Game1::~Game1()
 	delete graph;
 }
 
+Vector2 Game1::GenRandVector()
+{
+	Vector2 ret(rand() % 760, rand() % 760);
+	if (ret.x < 300 && ret.y < 300)
+		return GenRandVector();
+	if (graph->NodeWithin(ret, 85))
+		return GenRandVector();
+	return ret;
+}
+
 void Game1::RegenerateNodes()
 {
 	graph->Clear();
 	//create 50 random nodes between 0 and 760
-	for (int i = 0; i < 40; ++i)
+	for (int i = 0; i < 30; ++i)
 	{
-		Node* node = graph->AddNode(Vector2(rand() % 760, rand() % 760));
+		int x = rand() % 760;
+		int y = rand() % 760;
+		Node* node = graph->AddNode(GenRandVector());
 		graph->ConnectCloseNodes(node, 200, bidirectional);
 	}
 }
@@ -110,11 +122,19 @@ void Game1::Update(float deltaTime)
 	if (input->WasKeyPressed(GLFW_KEY_C))
 		graph->PrepareForSearch();
 	
-	if (input->WasKeyPressed(GLFW_KEY_1))
+	if (input->WasKeyPressed(GLFW_KEY_3))
+	{
 		graph->Clear();
+		nodeRenderData.Clear();
+		path.clear();
+	}
 	
 	if (input->WasKeyPressed(GLFW_KEY_2))
+	{
 		RegenerateNodes();
+		nodeRenderData.Clear();
+		path.clear();	
+	}
 	
 }
 
@@ -137,12 +157,13 @@ void Game1::Draw()
 	spritebatch->DrawString(font, "J - Dijkstra's 2 algorithm search", 10, 110);
 	spritebatch->DrawString(font, "O - Output graph data to console", 10, 130);
 	spritebatch->DrawString(font, "1 - Toggle Bidirectional/Directional", 10, 150);
-	bidirectional ? spritebatch->DrawString(font, "Bidirectional", 10, 170) : spritebatch->DrawString(font, "Directional", 10, 150);
+	bidirectional ? spritebatch->DrawString(font, "Bidirectional", 10, 170) : spritebatch->DrawString(font, "Directional", 10, 170);
 	spritebatch->DrawString(font, "C - Clear Search Data", 10, 190);
 	
 	spritebatch->DrawString(font, "A - Perform A Star Search", 10, 210);
-	spritebatch->DrawString(font, "1 - Clear Graph", 10, 230);
-	spritebatch->DrawString(font, "2 - Regenerate Random Graph", 10, 250);
+	spritebatch->DrawString(font, "2 - Regenerate Random Graph", 10, 230);
+	spritebatch->DrawString(font, "3 - Clear Graph", 10, 250);
+	
 
 	renderer->Draw(graph->GraphData(), 0, 0, 255, 255);
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
