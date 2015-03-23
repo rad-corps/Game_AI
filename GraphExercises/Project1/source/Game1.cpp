@@ -29,7 +29,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	input = Input::GetSingleton();	
 	graph = new Graph();
 	pathFinder = new PathFinder();
-	font = new Font("./Fonts/arial_20px.fnt");
+	font = new Font("./Fonts/CourierNew_11px.fnt");
 	bidirectional = true;
 	renderer = new Renderer(spritebatch);
 	pathReady = false;
@@ -109,18 +109,23 @@ void Game1::Update(float deltaTime)
 
 	if (input->WasKeyPressed(GLFW_KEY_A))
 	{
-		searchThread = std::thread(&Game1::ThreadMain, this);		
+		if (graph->StartNode() != nullptr && graph->EndNode() != nullptr)
+			searchThread = std::thread(&Game1::ThreadMain, this);		
 	}
 
 	
 	if (input->WasKeyPressed(GLFW_KEY_O))
 		cout << graph->ToString() << endl;
 
-	if (input->WasKeyPressed(GLFW_KEY_1))
+	if (input->WasKeyPressed(GLFW_KEY_T))
 		bidirectional = !bidirectional;
 
-	if (input->WasKeyPressed(GLFW_KEY_C))
-		graph->PrepareForSearch();
+	if (input->WasKeyPressed(GLFW_KEY_1))
+	{
+		//graph->ClearStartAndEndNodes();
+		nodeRenderData.Clear();
+		path.clear();
+	}
 	
 	if (input->WasKeyPressed(GLFW_KEY_3))
 	{
@@ -138,6 +143,12 @@ void Game1::Update(float deltaTime)
 	
 }
 
+void Game1::DrawText(std::string text_)
+{
+	spritebatch->DrawString(font, text_.c_str(), 10, yText);
+	yText += 15;
+}
+
 void Game1::Draw()
 {
 	// clear the back buffer
@@ -149,31 +160,32 @@ void Game1::Draw()
 
 	spritebatch->SetRenderColor(255, 255, 255, 255);
 	
-	spritebatch->DrawString(font, "S - Set start node", 10, 10);
-	spritebatch->DrawString(font, "E - Set end node", 10, 30);	
-	spritebatch->DrawString(font, "B - Breadth first search step", 10, 50);
-	spritebatch->DrawString(font, "D - Depth first search step", 10, 70);
-	spritebatch->DrawString(font, "I - Dijkstra's algorithm search", 10, 90);
-	spritebatch->DrawString(font, "J - Dijkstra's 2 algorithm search", 10, 110);
-	spritebatch->DrawString(font, "O - Output graph data to console", 10, 130);
-	spritebatch->DrawString(font, "1 - Toggle Bidirectional/Directional", 10, 150);
-	bidirectional ? spritebatch->DrawString(font, "Bidirectional", 10, 170) : spritebatch->DrawString(font, "Directional", 10, 170);
-	spritebatch->DrawString(font, "C - Clear Search Data", 10, 190);
-	
-	spritebatch->DrawString(font, "A - Perform A Star Search", 10, 210);
-	spritebatch->DrawString(font, "2 - Regenerate Random Graph", 10, 230);
-	spritebatch->DrawString(font, "3 - Clear Graph", 10, 250);
+	yText = 10;
+	DrawText("S - Set start node");
+	DrawText("E - Set end node");
+	DrawText("B - Breadth first search");
+	DrawText("D - Depth first search");
+	DrawText("I - Dijkstra's algorithm search");
+	DrawText("A - Perform A Star Search");
+	DrawText("O - Output graph data to console");
+	DrawText("T - Toggle Bidirectional/Directional");
+	bidirectional ? DrawText("Bidirectional") : DrawText("Directional");
+	DrawText("1 - Clear Search Data");
+	DrawText("2 - Regenerate Random Graph");
+	DrawText("3 - Remove Graph");
 	
 
 	renderer->Draw(graph->GraphData(), 0, 0, 255, 255);
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
 	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);	
-	renderer->Draw(graph->StartNode(), 255, 255, 0, 255);
+	renderer->Draw(graph->StartNode(), 255, 150, 0, 255);
 	renderer->Draw(graph->EndNode(), 0, 255, 255, 255);
 	renderer->Draw(nodeRenderData.currentNode, 255, 255, 255, 255);
 
 	if (pathReady)
 	{
+		if (searchThread.joinable())
+			searchThread.join();
 		renderer->Draw(path, 255, 255, 255, 255);
 	}
 

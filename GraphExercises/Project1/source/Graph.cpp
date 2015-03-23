@@ -22,6 +22,14 @@ Graph::~Graph(void)
 void Graph::Clear()
 {
 	graphData.clear();
+	ClearStartAndEndNodes();
+}
+
+
+void Graph::ClearStartAndEndNodes()
+{
+	startNode = nullptr;
+	endNode = nullptr;
 }
 
 void

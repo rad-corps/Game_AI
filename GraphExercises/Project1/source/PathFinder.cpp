@@ -134,7 +134,7 @@ std::vector<Node*> PathFinder::AStar(const Graph& graph_, NodeRenderData& render
 		std::cout << "openList size: " << openList.Size() << endl;
 		std::cout << "closedList size: " << closedList.Size() << endl;
 		
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
 	return masterList.Path(currentNode);

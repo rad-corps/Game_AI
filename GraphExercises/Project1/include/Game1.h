@@ -11,6 +11,7 @@ Description:
 #include "PathFinder.h"
 #include "Input.h"
 #include <thread>
+#include <atomic>
 #include "Renderer.h"
 
 class SpriteBatch;
@@ -30,6 +31,7 @@ public:
 	virtual void Draw();
 	void RegenerateNodes();
 	Vector2 GenRandVector();
+	void DrawText(std::string text_);
 
 protected:
 
@@ -39,13 +41,12 @@ protected:
 	Input* input;
 
 private:
-
+	int yText;
 	void ThreadMain();
 	std::thread searchThread;
-	bool isRunning;
 	bool bidirectional;
 	Font *font;
-	bool pathReady;
+	std::atomic<bool> pathReady;
 
 	NodeRenderData nodeRenderData;
 	std::vector<Node*> path;

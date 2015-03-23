@@ -22,6 +22,7 @@ public:
 	std::vector<Node*> FindNodes(Vector2 pos_, int tollerance_);
 	void SetHilightedNodes(std::vector<Node*> highlitedNodes_);
 	void Clear();
+	void ClearStartAndEndNodes();
 	bool NodeWithin(Vector2 pos_, int tollerance_);
 	
 	void RemoveNode(Node* node_);
