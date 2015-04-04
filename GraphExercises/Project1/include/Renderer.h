@@ -19,3 +19,18 @@ private:
 	SpriteBatch* spriteBatch;
 };
 
+struct NodeRenderData
+{
+	std::vector<Node*> openList;
+	std::vector<Node*> closedList;
+	Node* currentNode;	
+
+	NodeRenderData() : currentNode(nullptr) {}
+
+	void Clear()
+	{
+		openList.clear();
+		closedList.clear();
+		currentNode = nullptr;
+	}
+};

@@ -1,28 +1,11 @@
 #include "Edge.h"
 
-Edge::Edge(Node* end_, EdgeData data_)
+Edge::Edge(Node* end_, int cost_)
 {
 	end = end_;
-	data = data_;
+	cost = cost_;
 }
 
 Edge::~Edge(void)
 {
-}
-
-Node*
-Edge::End()
-{
-	return end;
-}
-
-EdgeData
-Edge::Data()
-{
-	return data;
-}
-
-void Edge::SetCost(int cost_)
-{
-	data.cost = cost_;
 }

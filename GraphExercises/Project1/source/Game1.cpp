@@ -174,9 +174,6 @@ void Game1::Update(float deltaTime)
 		speed *= 2;
 		if (speed > 2000) speed = 100;
 	}
-	
-	
-	
 }
 
 void Game1::DrawText(std::string text_)
@@ -213,7 +210,7 @@ void Game1::Draw()
 	DrawText(speedStr.str());
 	
 
-	renderer->Draw(graph->GraphData(), 0, 0, 255, 255);
+	renderer->Draw(graph->GraphData(), 50, 50, 50, 255);
 	renderer->Draw(nodeRenderData.openList, 255, 0, 0, 255);
 	renderer->Draw(nodeRenderData.closedList, 0, 255, 0, 255);	
 	renderer->Draw(graph->StartNode(), 255, 150, 0, 255);
@@ -227,9 +224,8 @@ void Game1::Draw()
 	}
 	if (!threadRunning)
 	{
-		renderer->Draw(path, 255, 255, 255, 255);
+		renderer->Draw(path, 10, 127, 255, 255);
 	}
 
 	spritebatch->End();
-
 }

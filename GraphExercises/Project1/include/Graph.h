@@ -16,7 +16,10 @@ public:
 	Graph(void);
 	~Graph(void);
 	std::vector<Node*> GraphData() const;
-	Node* AddNode(NodeData data_);
+	std::vector<Node*> AStar();
+	
+	int CalcH(Node* from_, Node* to_);
+	//Node* AddNode(NodeData data_);
 	Node* AddNode(Vector2 data_);
 	Node* FindNode(Vector2 pos_, int tollerance_);
 	std::vector<Node*> FindNodes(Vector2 pos_, int tollerance_);
@@ -34,8 +37,8 @@ public:
 	Node* EndNode() const;
 	
 	Node* operator[](int index_);
-	void ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_);
-	void ConnectNodes(Node* nodeA_, Node* nodeB_, int cose_, bool bidirectional_);
+	//void ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_);
+	void ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_);
 	void ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_);
 	int size();
 	void Draw(SpriteBatch* spriteBatch_, Font *font_);
@@ -49,6 +52,8 @@ public:
 	std::string ToString();
 
 private:
+	std::vector<Node*> ReconstructPath();
+	
 	//todo comment out below 3
 	Node* startNode;
 	Node* endNode;

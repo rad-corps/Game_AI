@@ -37,7 +37,6 @@ protected:
 
 	SpriteBatch *spritebatch;
 	Graph *graph;
-	PathFinder *pathFinder;
 	Input* input;
 
 private:

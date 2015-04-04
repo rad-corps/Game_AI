@@ -4,34 +4,21 @@
 #include <string>
 #include "Edge.h"
 #include "Vector.h"
-
-struct NodeData
+struct Node
 {
-	int nodeID;
-	Vector2 pos;
-	bool traversed;
-	int gScore;
-};
-
-class Node
-{
-public:
-	Node(NodeData nd_);
-	~Node(void);
-	void AddEdge(Node* end_, EdgeData data_);
-	void RemoveEdgeIf(Node* edge_);
-	NodeData GetData();
-	std::vector<Edge> GetEdges();
+	//functions
+	Node();
+	~Node();
+	void AddEdge(Node* end_, int cost_);
+	void RemoveEdgeIf(Node* edge_);		
 	std::string ToString();
-	void MarkAsTraversed(bool traversed_ = true);
-	void SetGScore(int gScore_);
-	void SetParent(Node* parent_);
-	Node* GetParent();
-
 	bool operator < (Node& node_);
-private:
+	
+	//members
+	int g;
+	int f; //g + h (h calculated, not stored)
 	Node* parent;
-	NodeData data;
+	Vector2 pos;
 	std::vector<Edge> edges;
 };
 

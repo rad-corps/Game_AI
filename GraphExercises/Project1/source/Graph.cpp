@@ -98,12 +98,12 @@ void Graph::PrepareForSearch()
 	closedList.clear();
 	path.clear();
 	highlitedNodes.clear();
+	
 	//set all gScores to 0 ?
-
 	for (Node* node : graphData)
 	{
-		node->SetGScore(0);
-		node->MarkAsTraversed(false);
+		node->g = 0;
+		node->f = 0;
 	}
 
 	currentNode = nullptr;
@@ -232,22 +232,22 @@ Graph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 	{
 		Node* node = graphData[i];
 		//get the edge
-		for (Edge edge : node->GetEdges())
+		for (Edge edge : node->edges)
 		{
 			
 			Node* startNode = node;
-			Node* endNode = edge.End();
+			Node* endNode = edge.end;
 
 			//draw line from this node to edge
 			if ( startNode != endNode )
-				spriteBatch_->DrawArrow(startNode->GetData().pos.x, startNode->GetData().pos.y, endNode->GetData().pos.x, endNode->GetData().pos.y);
+				spriteBatch_->DrawArrow(startNode->pos.x, startNode->pos.y, endNode->pos.x, endNode->pos.y);
 
 			//also draw the cost/distance 
 			stringstream costString;
-			costString << edge.Data().cost;
+			costString << edge.cost;
 
 			//find a spot to draw it (halfway between start and end nodes)
-			Vector2 strPos = (startNode->GetData().pos + endNode->GetData().pos) * 0.5;
+			Vector2 strPos = (startNode->pos + endNode->pos) * 0.5;
 			spriteBatch_->DrawString(costFont, costString.str().c_str(), strPos.x, strPos.y);
 		}
 	}
@@ -274,26 +274,20 @@ Graph::Draw(SpriteBatch* spriteBatch_, Font *font_)
 	//	spriteBatch_->DrawSprite(nodeSprite, data.pos.x, data.pos.y);
 	//}
 }
-
-Node*
-Graph::AddNode(NodeData data_)
-{
-	Node *nodePtr = new Node(data_);
-	graphData.push_back(nodePtr);
-	return nodePtr;
-}
+//
+//Node*
+//Graph::AddNode(NodeData data_)
+//{
+//	Node *nodePtr = new Node(data_);
+//	graphData.push_back(nodePtr);
+//	return nodePtr;
+//}
 
 Node*
 Graph::AddNode(Vector2 pos_)
 {
-	NodeData nd;
-	nd.pos = pos_;
-	nd.nodeID = nodeID++;
-	nd.traversed = false;
-	//nd.start = false;
-	//nd.end = false;
-
-	Node *nodePtr = new Node(nd);
+	Node *nodePtr = new Node();
+	nodePtr->pos = pos_;
 	graphData.push_back(nodePtr);
 	return nodePtr;
 }
@@ -345,7 +339,7 @@ Node* Graph::FindNode(Vector2 pos_, int tollerance_)
 {
 	for (auto &node : graphData)
 	{
-		float distance = (node->GetData().pos - pos_).GetMagnitude();
+		float distance = (node->pos - pos_).GetMagnitude();
 
 		if (distance < tollerance_)
 		{			
@@ -361,7 +355,7 @@ std::vector<Node*> Graph::FindNodes(Vector2 pos_, int tollerance_)
 	
 	for (auto &node : graphData)
 	{
-		float distance = (node->GetData().pos - pos_).GetMagnitude();
+		float distance = (node->pos - pos_).GetMagnitude();
 
 		if (distance < tollerance_)
 		{
@@ -395,31 +389,116 @@ std::string Graph::ToString()
 
 void Graph::ConnectCloseNodes(Node* nodeA_, int distance_, bool bidirectional_)
 {
-	vector<Node*> nodeVec = FindNodes(nodeA_->GetData().pos, distance_);
+	vector<Node*> nodeVec = FindNodes(nodeA_->pos, distance_);
 	for (auto& node : nodeVec)
 	{
 		if (node != nodeA_)
 		{
-			int distance = (int)(node->GetData().pos - nodeA_->GetData().pos).GetMagnitude();
+			int distance = (int)(node->pos - nodeA_->pos).GetMagnitude();
 			ConnectNodes(node, nodeA_, distance, bidirectional_);
 		}
 	}
 }
 
-void Graph::ConnectNodes(Node* nodeA_, Node* nodeB_, EdgeData edgeData_, bool bidirectional_)
-{
-	nodeA_->AddEdge(nodeB_, edgeData_);
-	
-	if (bidirectional_)
-		nodeB_->AddEdge(nodeA_, edgeData_);
-}
-
 void Graph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirectional_)
 {
-	EdgeData ed;
-	ed.cost = cost_;
-	nodeA_->AddEdge(nodeB_, ed);
+	nodeA_->AddEdge(nodeB_, cost_);
 	
 	if (bidirectional_)
-		nodeB_->AddEdge(nodeA_, ed);
+		nodeB_->AddEdge(nodeA_, cost_);
+}
+
+
+std::vector<Node*> Graph::ReconstructPath()
+{}
+
+
+//TOFIX make this a function pointer for different heuristics? 
+int Graph::CalcH(Node* from_, Node* to_)
+{
+	//straight line distance
+	return (int)(to_->pos - from_->pos).GetMagnitude();
+}
+
+std::vector<Node*> Graph::AStar()
+{
+	//closedset: = the empty set    // The set of nodes already evaluated.
+	std::vector<Node*> closedList;
+
+	//openset : = { start }    // The set of tentative nodes to be evaluated, initially containing the start node
+	std::vector<Node*> openList;
+	openList.push_back(startNode);
+
+	//set all g scores to infinite and all parents to nullptr
+	for (Node* node : graphData)
+	{
+		node->g = 9999999;
+		node->parent = nullptr;
+	}
+
+	//	g_score[start] : = 0    // Cost from start along best known path.
+	openList[0]->g = 0;
+	//openList[0]->parent = openList[0];
+
+//	// Estimated total cost from start to goal through y.
+//	f_score[start] : = g_score[start] + heuristic_cost_estimate(start, goal)
+	openList[0]->f = openList[0]->g + CalcH(openList[0], endNode);
+
+//	while openset is not empty
+	while (!openList.empty())
+	{
+		//lowest f score node to go to front
+		std::sort(openList.begin(), openList.end());
+		
+		//get the lowest f score node TODO: are we getting the lowest or highest here? test
+		Node* currentNode = openList[openList.size() - 1];
+
+		//remove the node from the open list
+		openList.erase(openList.begin() + openList.size() - 1);
+
+		//add it to the closed (traversed list) 
+		closedList.push_back(currentNode);
+
+		//if we have found the end node. 
+		if (currentNode == endNode)
+		{
+			//success: bail from loop and create the return list
+			break;
+		}
+
+		//loop through edges
+		for (Edge& edge : currentNode->edges)
+		{
+			//if end node is not traversed (does not appear in closed list) 
+			if (std::find(closedList.begin(), closedList.end(), edge.end) == closedList.end())
+			{
+				//calculate a tentative f cost of the edge's end node
+				int tentativeF = currentNode->g + edge.cost + CalcH(edge.end, endNode);
+				
+				//if the tentative f cost is less than the edge node's current f cost, update its data
+				if (tentativeF < edge.end->f)
+				{
+					edge.end->parent = currentNode;
+					edge.end->g = currentNode->g + edge.cost;
+					edge.end->f = tentativeF;
+					if (std::find(openList.begin(), openList.end(), edge.end) == openList.end())
+					{
+						openList.push_back(edge.end);
+					}
+				}
+			}
+		}
+	}//while(!openList.empty())
+
+	//reconstruct the path
+	std::vector<Node*> ret; 
+	Node* currentNode = endNode;
+	do
+	{
+		ret.push_back(currentNode);
+		currentNode = currentNode->parent;
+	} while (currentNode != nullptr);
+
+	return ret;
+
 }

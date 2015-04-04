@@ -18,7 +18,7 @@ void Renderer::Draw(std::vector<Node*> nodes_, unsigned char r_, unsigned char g
 	
 	for (auto &node : nodes_)
 	{
-		spriteBatch->DrawSprite(nodeSprite, node->GetData().pos.x, node->GetData().pos.y);
+		spriteBatch->DrawSprite(nodeSprite, node->pos.x, node->pos.y);
 	}	
 }
 
@@ -27,6 +27,6 @@ void Renderer::Draw(Node* node_, unsigned char r_, unsigned char g_, unsigned ch
 	if (node_ != nullptr)
 	{
 		spriteBatch->SetRenderColor(r_, g_, b_, a_);
-		spriteBatch->DrawSprite(nodeSprite, node_->GetData().pos.x, node_->GetData().pos.y);
+		spriteBatch->DrawSprite(nodeSprite, node_->pos.x, node_->pos.y);
 	}
 }

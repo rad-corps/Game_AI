@@ -1,27 +1,13 @@
 #pragma once
 
-class Node;
+struct Node;
 
-struct EdgeData
+struct Edge
 {
-	int cost;
-};
-
-
-class Edge
-{
-public:
-	Edge(Node* end_, EdgeData data_);
+	Edge(Node* end_, int cost_);
 	~Edge(void);
 
-	void SetCost(int cost_);
-
-	Node* End();
-	EdgeData Data();
-
-private:
-
+	int cost;
 	Node* end;
-	EdgeData data;
 };
 
