@@ -15,23 +15,28 @@ using namespace std;
 
 void Game1::AStarThread()
 {
-	path = pathFinder->AStar(*graph, nodeRenderData, speed);
+	path = graph->AStar();
 	threadRunning = false;
 }
 void Game1::DijkstrasThread()
 {
+	/*
 	path = pathFinder->Dijkstras(*graph, nodeRenderData, speed);
 	threadRunning = false;
+	*/
 }
 void Game1::DFSThread()
 {
+	/*
 	path = pathFinder->DFS(*graph, nodeRenderData, speed);
 	threadRunning = false;
+	*/
 }
 void Game1::BFSThread()
-{
+{/*
 	path = pathFinder->BFS(*graph, nodeRenderData, speed);
 	threadRunning = false;
+	*/
 }
 
 
@@ -44,7 +49,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 	input = Input::GetSingleton();	
 	graph = new Graph();
-	pathFinder = new PathFinder();
+//	pathFinder = new PathFinder();
 	font = new Font("./Fonts/CourierNew_11px.fnt");
 	bidirectional = true;
 	renderer = new Renderer(spritebatch);

@@ -409,8 +409,10 @@ void Graph::ConnectNodes(Node* nodeA_, Node* nodeB_, int cost_, bool bidirection
 }
 
 
-std::vector<Node*> Graph::ReconstructPath()
-{}
+//std::vector<Node*> Graph::ReconstructPath()
+//{
+//
+//}
 
 
 //TOFIX make this a function pointer for different heuristics? 
@@ -433,6 +435,7 @@ std::vector<Node*> Graph::AStar()
 	for (Node* node : graphData)
 	{
 		node->g = 9999999;
+		node->f = 9999999;
 		node->parent = nullptr;
 	}
 
@@ -447,14 +450,14 @@ std::vector<Node*> Graph::AStar()
 //	while openset is not empty
 	while (!openList.empty())
 	{
-		//lowest f score node to go to front
-		std::sort(openList.begin(), openList.end());
+		//lowest f score node to go to front (use lambda as we dont want to compare Node pointer addresses) 
+		std::sort(openList.begin(), openList.end(), [](Node* a, Node* b){return a->f < b->f; });
 		
 		//get the lowest f score node TODO: are we getting the lowest or highest here? test
-		Node* currentNode = openList[openList.size() - 1];
+		Node* currentNode = openList[0];
 
 		//remove the node from the open list
-		openList.erase(openList.begin() + openList.size() - 1);
+		openList.erase(openList.begin());
 
 		//add it to the closed (traversed list) 
 		closedList.push_back(currentNode);

@@ -52,7 +52,7 @@ public:
 	std::string ToString();
 
 private:
-	std::vector<Node*> ReconstructPath();
+	//std::vector<Node*> ReconstructPath();
 	
 	//todo comment out below 3
 	Node* startNode;
